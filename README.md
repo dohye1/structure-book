@@ -15,4 +15,3 @@ chatGPT~ 이 이미지를 코드로뽑아줘 제발제발~~~
 ![KakaoTalk_Photo_2023-02-20-20-14-41](https://user-images.githubusercontent.com/64346737/220091130-ac1e5463-3e2e-463f-a892-c68e00e4bd8e.jpeg)
 
 기획/디자인/개발(서버도!!!)을 모두 혼자서 해볼거라 쉽진않겠지만, 그래도 그 과정에서 배울게 많을것같다!
-
