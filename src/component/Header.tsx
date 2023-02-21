@@ -32,8 +32,9 @@ const Logo = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    color: ${theme.palette.gray2};
+    font-size: 24px;
+    font-weight: 700;
+    color: ${theme.palette.beige5};
   `}
 `;
 

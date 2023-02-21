@@ -4,6 +4,8 @@ import { Inter } from "@next/font/google";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import SVG from "@/component/SVG";
+import Filter from "@/component/Home/Filter";
+import CardList from "@/component/Home/CardList";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,11 +15,12 @@ export default function Home() {
       <SearchSection>
         <InputWrapper>
           <SVG name="search" />
-          <Input />
+          <Input placeholder="What project are you looking for?" />
         </InputWrapper>
       </SearchSection>
       <MainSection>
-        <div style={{ width: "100%", height: "100vh" }} />
+        <Filter />
+        <CardList />
       </MainSection>
     </Container>
   );
@@ -43,6 +46,7 @@ const SearchSection = styled.div`
 `;
 const InputWrapper = styled.div`
   ${({ theme }) => css`
+    min-width: 340px;
     display: flex;
     column-gap: 8px;
     align-items: center;
@@ -56,7 +60,8 @@ const Input = styled.input`
   ${({ theme }) => css`
     outline: none;
     border: none;
-    font-size: 20px;
+    width: 100%;
+    font-size: 18px;
     font-weight: 400;
     color: ${theme.palette.gray2};
   `}
@@ -65,5 +70,9 @@ const Input = styled.input`
 const MainSection = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.palette.beige2};
+    display: flex;
+    padding: 20px 40px;
+    column-gap: 30px;
+    justify-content: space-between;
   `}
 `;
