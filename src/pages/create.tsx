@@ -4,7 +4,10 @@ import { css } from "@emotion/react";
 import Select from "react-select";
 import Button from "@/component/Button";
 import TreeInput from "@/component/Create/TreeInput";
+import { Octokit } from "@octokit/rest";
 import SVG from "@/component/SVG";
+import { useState } from "react";
+import GithubModal from "@/component/Create/GithubModal";
 
 const MOCK_OPTION = [
   { label: "React", value: 1 },
@@ -12,37 +15,66 @@ const MOCK_OPTION = [
   { label: "Vue", value: 3 },
 ];
 
+const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
+  const octokit = new Octokit();
+
+  const requestConfig = {
+    owner: args.owner,
+    repo: args.repo,
+    tree_sha: args.branch.value,
+    recursive: "1",
+  };
+
+  octokit.rest.git.getTree(requestConfig).then(({ data }) => {
+    console.log(data);
+    // handle data
+  });
+};
+
 export default function Create() {
+  const [showGithubModal, setShowGithubModal] = useState(false);
+
+  const onOpenModal = () => setShowGithubModal(true);
+  const onCloseModal = (args?: GithubTreeRequestArgs) => {
+    setShowGithubModal(false);
+    if (args) {
+      onRetrieveGithubTreeInfo(args);
+    }
+  };
+
   return (
-    <Container>
-      <Form>
-        <Title>Share your project structure</Title>
-        <Item>
-          <Label>stack</Label>
-          <Select options={MOCK_OPTION} />
-        </Item>
-        <Item>
-          <Label>description</Label>
-          <Textarea />
-        </Item>
-        <Item>
-          <Label>tree</Label>
-          <Button isFilled={false}>
-            <SVG name="github" fill="#77bc88" />
-            github Repository에서 받아오기
-          </Button>
-          <TreeInput />
-        </Item>
-        <Item>
-          <Label>github URL</Label>
-          <Input />
-        </Item>
-        <ButtonWrapper>
-          <Button isFilled={false}>Save</Button>
-          <Button>Create</Button>
-        </ButtonWrapper>
-      </Form>
-    </Container>
+    <>
+      <Container>
+        <Form>
+          <Title>Share your project structure</Title>
+          <Item>
+            <Label>stack</Label>
+            <Select options={MOCK_OPTION} />
+          </Item>
+          <Item>
+            <Label>description</Label>
+            <Textarea />
+          </Item>
+          <Item>
+            <Label>tree</Label>
+            <Button isFilled={false} onClick={onOpenModal}>
+              <SVG name="github" fill="#77bc88" />
+              github Repository에서 받아오기
+            </Button>
+            <TreeInput />
+          </Item>
+          <Item>
+            <Label>github URL</Label>
+            <Input />
+          </Item>
+          <ButtonWrapper>
+            <Button isFilled={false}>Save</Button>
+            <Button>Create</Button>
+          </ButtonWrapper>
+        </Form>
+      </Container>
+      {showGithubModal && <GithubModal onClose={onCloseModal} />}
+    </>
   );
 }
 
@@ -62,6 +94,7 @@ const Title = styled.div`
     margin-bottom: 24px;
   `}
 `;
+
 const Form = styled.div`
   ${({ theme }) => css`
     display: flex;

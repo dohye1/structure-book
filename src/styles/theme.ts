@@ -20,6 +20,10 @@ const palette = {
   green8: "#d1e8d7",
   green9: "#e0f0e4",
   green10: "#eff7f1",
+  red1: "#aa2e25",
+  red2: "#c3352b",
+  red3: "#db3c30",
+  red4: "#f44336",
 } as const;
 
 const spacing = {};

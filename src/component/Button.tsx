@@ -22,6 +22,8 @@ const Container = styled.button<{ size?: ButtonSize; isFilled?: boolean }>`
     justify-content: center;
     column-gap: 4px;
     cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid transparent;
     ${size === "small" &&
     css`
       padding: 10px 14px;
@@ -34,10 +36,20 @@ const Container = styled.button<{ size?: ButtonSize; isFilled?: boolean }>`
       ? css`
           background-color: ${theme.palette.green2};
           color: ${theme.palette.white};
+          &:disabled {
+            background-color: ${theme.palette.green7};
+            cursor: default;
+          }
         `
       : css`
           background-color: ${theme.palette.white};
           color: ${theme.palette.green2};
+          border: 1px solid ${theme.palette.green2};
+          &:disabled {
+            color: ${theme.palette.green7};
+            border: 1px solid ${theme.palette.green7};
+            cursor: default;
+          }
         `}
   `}
 `;
