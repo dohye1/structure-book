@@ -1,13 +1,34 @@
 import React from "react";
 import Head from "next/head";
+import Button from "./Button";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { useRouter } from "next/router";
 
 function Header() {
+  const router = useRouter();
+
+  const onNavigateToHome = () => {
+    router.push("/");
+  };
+
+  const onCreateStructure = () => {
+    router.push("/create");
+  };
+
+  const hideButton = router.pathname.includes("create");
+
   return (
     <Container>
-      <Logo>STRUCTURE BOOK</Logo>
-      <User />
+      <Logo onClick={onNavigateToHome}>STRUCTURE BOOK</Logo>
+      <RightSection>
+        {!hideButton && (
+          <Button onClick={onCreateStructure} size={"small"}>
+            Add New Structure
+          </Button>
+        )}
+        <User />
+      </RightSection>
     </Container>
   );
 }
@@ -35,6 +56,14 @@ const Logo = styled.div`
     font-size: 24px;
     font-weight: 700;
     color: ${theme.palette.beige5};
+    cursor: pointer;
+  `}
+`;
+
+const RightSection = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    column-gap: 16px;
   `}
 `;
 

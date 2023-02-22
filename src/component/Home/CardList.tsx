@@ -17,7 +17,7 @@ export default function CardList() {
 
 const Container = styled.div`
   ${({ theme }) => css`
-    flex: 7;
+    flex: 8;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;

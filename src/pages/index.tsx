@@ -35,7 +35,6 @@ const Container = styled.div`
 
 const SearchSection = styled.div`
   ${({ theme }) => css`
-    background-color: ${theme.palette.beige5};
     display: flex;
     flex-direction: column;
     row-gap: 10px;
