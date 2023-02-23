@@ -53,3 +53,40 @@ form을 만들었다.
 일단 돌아가게만들고나서 살을 붙일 생각임
 </div>
 </details>
+
+
+<details>
+<summary>2023.02.23</summary>
+<div markdown="1">       
+오늘은 트리구조를 어떻게 처리할지 고민을 좀 해봤다.
+
+```typescript
+
+  type TreeItem = {
+    id: string;
+    type: TreeItemType;
+    name: string;
+    description?: string;
+  };
+
+  type Tree = {
+    item: TreeItem;
+    children?: Tree[];
+
+  };
+
+  type TreeList = Tree[];
+```
+
+처음엔 이렇게 배열로 관리할까 싶었는데 트리의 데이터를 변경하는 기능도 추가한다고 생각해보면, tree 데이터가 배열로 있을때 인덱스를 항상 찾아줘야하는데,
+만약 폴더의 depth가 깊다면....? 정말 생각만해도 복잡해진다.
+
+배열말고 객체로 데이터를 관리한다면 key로 접근하기때문에 배열로 관리할때보다는 좀 더 쉽게 해결할수있을것같다!
+
+내일은 데이터의 구조를 변경해봐야겠다.
+
+<img width="800" alt="폴더 트리구조" src="https://user-images.githubusercontent.com/64346737/220934163-d0d4a062-54ab-4451-82ab-7ccd5cdf1eb9.png">
+
+암튼 오늘은 위의 사진처럼 트리를 만들어봤다.
+</div>
+</details>
