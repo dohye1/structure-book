@@ -1,4 +1,3 @@
-import { Inter } from "@next/font/google";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import Select from "react-select";
@@ -15,6 +14,37 @@ const MOCK_OPTION = [
   { label: "Vue", value: 3 },
 ];
 
+const MOCK_TREE: TreeList = [
+  {
+    item: { id: "test1", type: "FOLDER", name: "test" },
+    children: [
+      {
+        item: { id: "test2", type: "FOLDER", name: "test2222" },
+        children: [{ item: { id: "test3", type: "FILE", name: "test3333" } }],
+      },
+    ],
+  },
+  {
+    item: { id: "folderOnly", type: "FOLDER", name: "folderOnly" },
+  },
+  {
+    item: { id: "test4", type: "FOLDER", name: "test444444" },
+    children: [
+      {
+        item: { id: "test5", type: "FOLDER", name: "test55555" },
+        children: [
+          {
+            item: { id: "test6", type: "FOLDER", name: "test66666" },
+            children: [
+              { item: { id: "test77777", type: "FILE", name: "test777777" } },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
 const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
   const octokit = new Octokit();
 
@@ -25,20 +55,27 @@ const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
     recursive: "1",
   };
 
-  octokit.rest.git.getTree(requestConfig).then(({ data }) => {
-    console.log(data);
-    // handle data
-  });
+  const treeData = await octokit.rest.git.getTree(requestConfig);
+  return treeData.data;
 };
 
 export default function Create() {
   const [showGithubModal, setShowGithubModal] = useState(false);
+  const [isLoadingGithubTree, setIsLoadingGithubTree] = useState(false);
 
   const onOpenModal = () => setShowGithubModal(true);
-  const onCloseModal = (args?: GithubTreeRequestArgs) => {
+  const onCloseModal = async (args?: GithubTreeRequestArgs) => {
     setShowGithubModal(false);
     if (args) {
-      onRetrieveGithubTreeInfo(args);
+      try {
+        setIsLoadingGithubTree(true);
+        const treeData = await onRetrieveGithubTreeInfo(args);
+        // treeData를 가공해야한다.
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoadingGithubTree(false);
+      }
     }
   };
 
@@ -61,7 +98,7 @@ export default function Create() {
               <SVG name="github" fill="#77bc88" />
               github Repository에서 받아오기
             </Button>
-            <TreeInput />
+            <TreeInput isLoading={isLoadingGithubTree} treeList={MOCK_TREE} />
           </Item>
           <Item>
             <Label>github URL</Label>
