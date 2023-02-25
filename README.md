@@ -158,6 +158,18 @@ const MOCK_TREE: TreeList = {
 지금은 깃허브에서 받아온 데이터를 내 입맛에맞게 구조를 바꾸려고 폴더명을 key로 만들었다.
 <img width="800" alt="폴더 트리구조" src="https://user-images.githubusercontent.com/64346737/221353903-57a0be47-b41e-4969-a1e7-d33c05307718.png">
 
-일단 지금은 깃헙트리구조를 화면에 표현하는데꺼지는 성공!
+일단 지금은 깃헙트리구조를 화면에 표현하는데까지는 성공!
+  
+  
+---
+  
+데이터를 삭제할때나 수정할때, depth가 깊다면 또 어떻게 접근을해야하나...고민을 했는데,
+github API를 확인해보니, 하나의 파일 데이터가
+<img width="400" alt="github file data" src="https://user-images.githubusercontent.com/64346737/221356380-3cccaa59-74c3-4217-857a-6aedbd3a73c6.png">
+
+이런식으로 path도 가지고있다!! 
+  
+path를 가지고있으면 부모의 정보를 가지고있는것이므로 depth가 깊어도 target을 금방 찾을수있을것같음!!
+  
 </div>
 </details>
