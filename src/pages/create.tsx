@@ -3,10 +3,13 @@ import { css } from "@emotion/react";
 import Select from "react-select";
 import Button from "@/component/Button";
 import TreeInput from "@/component/Create/TreeInput";
-import { Octokit } from "@octokit/rest";
 import SVG from "@/component/SVG";
 import { useState } from "react";
 import GithubModal from "@/component/Create/GithubModal";
+import {
+  onRetrieveGithubTreeInfo,
+  transformGithubTreeResponse,
+} from "@/utils/tree.util";
 
 const MOCK_OPTION = [
   { label: "React", value: 1 },
@@ -14,54 +17,11 @@ const MOCK_OPTION = [
   { label: "Vue", value: 3 },
 ];
 
-const MOCK_TREE: TreeList = [
-  {
-    item: { id: "test1", type: "FOLDER", name: "test" },
-    children: [
-      {
-        item: { id: "test2", type: "FOLDER", name: "test2222" },
-        children: [{ item: { id: "test3", type: "FILE", name: "test3333" } }],
-      },
-    ],
-  },
-  {
-    item: { id: "folderOnly", type: "FOLDER", name: "folderOnly" },
-  },
-  {
-    item: { id: "test4", type: "FOLDER", name: "test444444" },
-    children: [
-      {
-        item: { id: "test5", type: "FOLDER", name: "test55555" },
-        children: [
-          {
-            item: { id: "test6", type: "FOLDER", name: "test66666" },
-            children: [
-              { item: { id: "test77777", type: "FILE", name: "test777777" } },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
-  const octokit = new Octokit();
-
-  const requestConfig = {
-    owner: args.owner,
-    repo: args.repo,
-    tree_sha: args.branch.value,
-    recursive: "1",
-  };
-
-  const treeData = await octokit.rest.git.getTree(requestConfig);
-  return treeData.data;
-};
-
 export default function Create() {
   const [showGithubModal, setShowGithubModal] = useState(false);
   const [isLoadingGithubTree, setIsLoadingGithubTree] = useState(false);
+  const [githubURL, setGithubURL] = useState("");
+  const [treeList, setTreeList] = useState<TreeList>();
 
   const onOpenModal = () => setShowGithubModal(true);
   const onCloseModal = async (args?: GithubTreeRequestArgs) => {
@@ -70,7 +30,9 @@ export default function Create() {
       try {
         setIsLoadingGithubTree(true);
         const treeData = await onRetrieveGithubTreeInfo(args);
-        // treeData를 가공해야한다.
+        const list = transformGithubTreeResponse({ tree: treeData.tree });
+        setTreeList(list);
+        setGithubURL(`https://github.com/${args.owner}/${args.repo}`);
       } catch (error) {
         console.log(error);
       } finally {
@@ -98,11 +60,11 @@ export default function Create() {
               <SVG name="github" fill="#77bc88" />
               github Repository에서 받아오기
             </Button>
-            <TreeInput isLoading={isLoadingGithubTree} treeList={MOCK_TREE} />
+            <TreeInput isLoading={isLoadingGithubTree} treeList={treeList} />
           </Item>
           <Item>
             <Label>github URL</Label>
-            <Input />
+            <Input value={githubURL} />
           </Item>
           <ButtonWrapper>
             <Button isFilled={false}>Save</Button>

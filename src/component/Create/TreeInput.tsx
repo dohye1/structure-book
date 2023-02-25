@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 
 type Props = {
   isLoading?: boolean;
-  treeList: TreeList;
+  treeList?: TreeList;
 };
 
 export default function TreeInput({ isLoading, treeList }: Props) {
@@ -13,11 +13,15 @@ export default function TreeInput({ isLoading, treeList }: Props) {
     return <div>loading..</div>;
   }
 
+  if (!treeList) {
+    return <div>empty data</div>;
+  }
+
   return (
     <Container>
-      {treeList.map((treeInfo) => {
+      {Object.values(treeList).map((treeInfo) => {
         const list: ReactNode[] = [];
-        return makeStructureTree(list, treeInfo, 0);
+        return makeStructureTree(list, treeInfo);
       })}
     </Container>
   );

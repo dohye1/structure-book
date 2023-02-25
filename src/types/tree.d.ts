@@ -17,8 +17,18 @@ declare global {
 
   type Tree = {
     item: TreeItem;
-    children?: Tree[];
+    children?: TreeList;
   };
+  type TreeList = Record<string, Tree>;
 
-  type TreeList = Tree[];
+  type GithubTreeResponse = {
+    tree: {
+      path?: string | undefined;
+      mode?: string | undefined;
+      type?: string | undefined;
+      sha?: string | undefined;
+      size?: number | undefined;
+      url?: string | undefined;
+    }[];
+  };
 }

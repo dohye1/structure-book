@@ -36,6 +36,9 @@ const RemoveButton = styled.div`
     cursor: pointer;
     width: 20px;
     height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     & svg {
       color: #beb9ab;
     }
