@@ -6,6 +6,10 @@
 
 꺅 말만들어도 머리아프고 재미있을것같다!!
 
+
+<details>
+<summary>2023.02.20</summary>
+<div markdown="1">       
 일단 필요한 뷰를 손으로 그려봤다.
 
 chatGPT~ 이 이미지를 코드로뽑아줘 제발제발~~~
@@ -15,6 +19,9 @@ chatGPT~ 이 이미지를 코드로뽑아줘 제발제발~~~
 ![KakaoTalk_Photo_2023-02-20-20-14-41](https://user-images.githubusercontent.com/64346737/220091130-ac1e5463-3e2e-463f-a892-c68e00e4bd8e.jpeg)
 
 기획/디자인/개발(서버도!!!)을 모두 혼자서 해볼거라 쉽진않겠지만, 그래도 그 과정에서 배울게 많을것같다!
+</div>
+</details>
+
 
 <details>
 <summary>2023.02.21</summary>
@@ -88,5 +95,69 @@ form을 만들었다.
 <img width="800" alt="폴더 트리구조" src="https://user-images.githubusercontent.com/64346737/220934163-d0d4a062-54ab-4451-82ab-7ccd5cdf1eb9.png">
 
 암튼 오늘은 위의 사진처럼 트리를 만들어봤다.
+</div>
+</details>
+
+
+<details>
+<summary>2023.02.25</summary>
+<div markdown="1">       
+후우....데이터 구조때문에 고민을 계속 했다.
+
+폴더구조의 뎁스가 얼마나 깊어질지 예상을 할수가없기때문에, 최대한 다루기쉬운 형태로 만들어야한다.
+
+지금 당장 구현할 기능을 생각해보면 
+깃허브로 가져온 구조에서 삭제/추가를 쉽게 하려면 객체 key로 하는게 가장 좋은 방법이라는 결론을 냈다. 
+
+(일단은 아래와같은 구조로 갈건데, 데이터의 구조는 계속 고민해볼것이다!)
+
+```typescript
+const MOCK_TREE: TreeList = {
+  test: {
+    item: { id: "test1", type: "FOLDER", name: "test" },
+    children: {
+      test2222: {
+        item: { id: "test2", type: "FOLDER", name: "test2222" },
+        children: {
+          test3333: { item: { id: "test3", type: "FILE", name: "test3333" } },
+        },
+      },
+    },
+  },
+  folderOnly: {
+    item: { id: "folderOnly", type: "FOLDER", name: "folderOnly" },
+  },
+  test444444: {
+    item: { id: "test4", type: "FOLDER", name: "test444444" },
+    children: {
+      test55555: {
+        item: { id: "test5", type: "FOLDER", name: "test55555" },
+        children: {
+          test66666: {
+            item: { id: "test6", type: "FOLDER", name: "test66666" },
+            children: {
+              test777777: {
+                item: { id: "test77777", type: "FILE", name: "test777777" },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+```
+데이터의 구조를 보면 폴더의 이름 자체가 key가 된다.
+
+근데 만약 폴더이름을 변경하는기능을 넣게되면, 또 골치가 아파질것같다.
+
+왜냐면 폴더명을 변경하게되면 key도 변경해야하기때문에 데이터 관리차원에서 좋지않을것같음.
+
+지금 생각했을땐 각 TreeItem의 id를 key로 가지도록 하는게 좋을것같다! id는 한번 생성되면 변경되지않기때문이다.
+
+지금은 깃허브에서 받아온 데이터를 내 입맛에맞게 구조를 바꾸려고 폴더명을 key로 만들었다.
+<img width="800" alt="폴더 트리구조" src="https://user-images.githubusercontent.com/64346737/221353903-57a0be47-b41e-4969-a1e7-d33c05307718.png">
+
+일단 지금은 깃헙트리구조를 화면에 표현하는데꺼지는 성공!
 </div>
 </details>
