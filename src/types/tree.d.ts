@@ -12,6 +12,7 @@ declare global {
     id: string;
     type: TreeItemType;
     name: string;
+    path: string;
     description?: string;
   };
 

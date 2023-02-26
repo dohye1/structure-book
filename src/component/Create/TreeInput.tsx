@@ -6,9 +6,10 @@ import React, { ReactNode } from "react";
 type Props = {
   isLoading?: boolean;
   treeList?: TreeList;
+  onRemove: (item: TreeItem) => void;
 };
 
-export default function TreeInput({ isLoading, treeList }: Props) {
+export default function TreeInput({ isLoading, treeList, onRemove }: Props) {
   if (isLoading) {
     return <div>loading..</div>;
   }
@@ -17,14 +18,12 @@ export default function TreeInput({ isLoading, treeList }: Props) {
     return <div>empty data</div>;
   }
 
-  return (
-    <Container>
-      {Object.values(treeList).map((treeInfo) => {
-        const list: ReactNode[] = [];
-        return makeStructureTree(list, treeInfo);
-      })}
-    </Container>
-  );
+  const renderTreeList = Object.values(treeList).map((treeInfo) => {
+    const list: ReactNode[] = [];
+    return makeStructureTree({ list, treeInfo, onRemove });
+  });
+
+  return <Container>{renderTreeList}</Container>;
 }
 
 const Container = styled.div`

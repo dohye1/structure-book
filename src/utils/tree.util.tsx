@@ -17,18 +17,27 @@ export const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
   return treeData.data;
 };
 
-export const makeStructureTree = (
-  list: ReactNode[],
-  treeInfo: Tree,
-  depth: number = 0
-) => {
+export const makeStructureTree = ({
+  list,
+  treeInfo,
+  depth = 0,
+  onRemove,
+}: {
+  list: ReactNode[];
+  treeInfo: Tree;
+  depth?: number;
+  onRemove: (treeItem: TreeItem) => void;
+}) => {
   if (treeInfo.item.type === "FILE") {
     list.push(
-      <TreeItem treeItem={treeInfo.item} key={treeInfo.item.id} depth={depth} />
+      <TreeItem
+        treeItem={treeInfo.item}
+        key={treeInfo.item.id}
+        depth={depth}
+        onRemove={onRemove}
+      />
     );
-    return;
   }
-
   if (treeInfo.item.type === "FOLDER") {
     const childrenArr = Object.values(treeInfo.children ?? {});
     if (childrenArr.length) {
@@ -37,15 +46,19 @@ export const makeStructureTree = (
           treeItem={treeInfo.item}
           key={treeInfo.item.id}
           depth={depth}
+          onRemove={onRemove}
         />
       );
-      childrenArr.map((tree) => makeStructureTree(list, tree, depth + 1));
+      childrenArr.map((tree) =>
+        makeStructureTree({ list, treeInfo: tree, depth: depth + 1, onRemove })
+      );
     } else {
       list.push(
         <TreeItem
           treeItem={treeInfo.item}
           key={treeInfo.item.id}
           depth={depth}
+          onRemove={onRemove}
         />
       );
     }
@@ -68,6 +81,7 @@ export const transformGithubTreeResponse = ({
     const treeItem: TreeItem = {
       id: uuid(),
       type: treeItemType,
+      path: cur.path,
       name: curName,
     };
 

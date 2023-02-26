@@ -7,6 +7,7 @@ import SVG from "../SVG";
 type Props = {
   treeItem: TreeItem;
   depth: number;
+  onRemove: (treeItem: TreeItem) => void;
 };
 
 // TODO:
@@ -14,7 +15,7 @@ type Props = {
 // 2. description입력방식 생각해보기
 // 3. 삭제기능
 
-export default function TreeItem({ treeItem, depth }: Props) {
+export default function TreeItem({ treeItem, depth, onRemove }: Props) {
   return (
     <Container depth={depth}>
       <TreeInfo>
@@ -24,7 +25,7 @@ export default function TreeItem({ treeItem, depth }: Props) {
         />
         <Name>{treeItem.name}</Name>
       </TreeInfo>
-      <RemoveButton>
+      <RemoveButton onClick={() => onRemove(treeItem)}>
         <SVG name="trash" fill="currentcolor" />
       </RemoveButton>
     </Container>

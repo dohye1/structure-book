@@ -6,7 +6,6 @@
 
 꺅 말만들어도 머리아프고 재미있을것같다!!
 
-
 <details>
 <summary>2023.02.20</summary>
 <div markdown="1">       
@@ -19,9 +18,9 @@ chatGPT~ 이 이미지를 코드로뽑아줘 제발제발~~~
 ![KakaoTalk_Photo_2023-02-20-20-14-41](https://user-images.githubusercontent.com/64346737/220091130-ac1e5463-3e2e-463f-a892-c68e00e4bd8e.jpeg)
 
 기획/디자인/개발(서버도!!!)을 모두 혼자서 해볼거라 쉽진않겠지만, 그래도 그 과정에서 배울게 많을것같다!
+
 </div>
 </details>
-
 
 <details>
 <summary>2023.02.21</summary>
@@ -35,7 +34,6 @@ chatGPT~ 이 이미지를 코드로뽑아줘 제발제발~~~
 
 </div>
 </details>
-
 
 <details>
 <summary>2023.02.22</summary>
@@ -52,15 +50,14 @@ form을 만들었다.
 
 <img width="1498" alt="Screen Shot 2023-02-22 at 11 02 59 PM" src="https://user-images.githubusercontent.com/64346737/220644755-12b91939-69d6-4c04-add3-ad5041098649.png">
 
-
 꺅 재밌당...후후 불타오른김에 빨리해야징..
 
 이 프로젝트는 코드스타일, 디자인, 반응형 등은 최대한 고려하지않고 오로지 기능에 초점을 맞춰서 진행하려고한다.
 
 일단 돌아가게만들고나서 살을 붙일 생각임
+
 </div>
 </details>
-
 
 <details>
 <summary>2023.02.23</summary>
@@ -68,21 +65,19 @@ form을 만들었다.
 오늘은 트리구조를 어떻게 처리할지 고민을 좀 해봤다.
 
 ```typescript
+type TreeItem = {
+  id: string;
+  type: TreeItemType;
+  name: string;
+  description?: string;
+};
 
-  type TreeItem = {
-    id: string;
-    type: TreeItemType;
-    name: string;
-    description?: string;
-  };
+type Tree = {
+  item: TreeItem;
+  children?: Tree[];
+};
 
-  type Tree = {
-    item: TreeItem;
-    children?: Tree[];
-
-  };
-
-  type TreeList = Tree[];
+type TreeList = Tree[];
 ```
 
 처음엔 이렇게 배열로 관리할까 싶었는데 트리의 데이터를 변경하는 기능도 추가한다고 생각해보면, tree 데이터가 배열로 있을때 인덱스를 항상 찾아줘야하는데,
@@ -95,9 +90,9 @@ form을 만들었다.
 <img width="800" alt="폴더 트리구조" src="https://user-images.githubusercontent.com/64346737/220934163-d0d4a062-54ab-4451-82ab-7ccd5cdf1eb9.png">
 
 암튼 오늘은 위의 사진처럼 트리를 만들어봤다.
+
 </div>
 </details>
-
 
 <details>
 <summary>2023.02.25</summary>
@@ -106,38 +101,38 @@ form을 만들었다.
 
 폴더구조의 뎁스가 얼마나 깊어질지 예상을 할수가없기때문에, 최대한 다루기쉬운 형태로 만들어야한다.
 
-지금 당장 구현할 기능을 생각해보면 
-깃허브로 가져온 구조에서 삭제/추가를 쉽게 하려면 객체 key로 하는게 가장 좋은 방법이라는 결론을 냈다. 
+지금 당장 구현할 기능을 생각해보면
+깃허브로 가져온 구조에서 삭제/추가를 쉽게 하려면 객체 key로 하는게 가장 좋은 방법이라는 결론을 냈다.
 
 (일단은 아래와같은 구조로 갈건데, 데이터의 구조는 계속 고민해볼것이다!)
 
 ```typescript
 const MOCK_TREE: TreeList = {
   test: {
-    item: { id: "test1", type: "FOLDER", name: "test" },
+    item: { id: "id-1", type: "FOLDER", name: "test" },
     children: {
       test2222: {
-        item: { id: "test2", type: "FOLDER", name: "test2222" },
+        item: { id: "id-2", type: "FOLDER", name: "test2" },
         children: {
-          test3333: { item: { id: "test3", type: "FILE", name: "test3333" } },
+          test3333: { item: { id: "id-3", type: "FILE", name: "test3" } },
         },
       },
     },
   },
   folderOnly: {
-    item: { id: "folderOnly", type: "FOLDER", name: "folderOnly" },
+    item: { id: "id-4", type: "FOLDER", name: "folderOnly" },
   },
   test444444: {
-    item: { id: "test4", type: "FOLDER", name: "test444444" },
+    item: { id: "id-5", type: "FOLDER", name: "test4" },
     children: {
       test55555: {
-        item: { id: "test5", type: "FOLDER", name: "test55555" },
+        item: { id: "id-6", type: "FOLDER", name: "test5" },
         children: {
           test66666: {
-            item: { id: "test6", type: "FOLDER", name: "test66666" },
+            item: { id: "id-7", type: "FOLDER", name: "test6" },
             children: {
               test777777: {
-                item: { id: "test77777", type: "FILE", name: "test777777" },
+                item: { id: "id-8", type: "FILE", name: "test7" },
               },
             },
           },
@@ -147,6 +142,7 @@ const MOCK_TREE: TreeList = {
   },
 };
 ```
+
 데이터의 구조를 보면 폴더의 이름 자체가 key가 된다.
 
 근데 만약 폴더이름을 변경하는기능을 넣게되면, 또 골치가 아파질것같다.
@@ -159,17 +155,32 @@ const MOCK_TREE: TreeList = {
 <img width="800" alt="폴더 트리구조" src="https://user-images.githubusercontent.com/64346737/221353903-57a0be47-b41e-4969-a1e7-d33c05307718.png">
 
 일단 지금은 깃헙트리구조를 화면에 표현하는데까지는 성공!
-  
-  
+
 ---
-  
+
 데이터를 삭제할때나 수정할때, depth가 깊다면 또 어떻게 접근을해야하나...고민을 했는데,
 github API를 확인해보니, 하나의 파일 데이터가
 <img width="400" alt="github file data" src="https://user-images.githubusercontent.com/64346737/221356380-3cccaa59-74c3-4217-857a-6aedbd3a73c6.png">
 
-이런식으로 path도 가지고있다!! 
-  
+이런식으로 path도 가지고있다!!
+
 path를 가지고있으면 부모의 정보를 가지고있는것이므로 depth가 깊어도 target을 금방 찾을수있을것같음!!
-  
+
+</div>
+</details>
+
+<details>
+<summary>2023.02.26</summary>
+<div markdown="1">
+
+트리 삭제 기능을 구현해봤다.
+
+그런데 트리와 관련된 컴포넌트들을 많이 만들다보니
+데이터를 가지고있는 컴포넌트와 그리는 컴포넌트의 뎁스가 깊어져서, props로 여러단계를 거쳐서 넘겨야하는 상황이 되었고, 기능들은 이제 hook으로 빼야겠다.
+
+기능이 얼마없는데도, 로직이 많아짐..!흐긓긓
+
+아근데 지금 기차에서 코딩하고있는데 멀미가나서 오늘은 조금만해야겠따ㅠㅜ
+
 </div>
 </details>

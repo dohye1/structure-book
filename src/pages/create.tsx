@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { cloneDeep } from "lodash";
 import Select from "react-select";
 import Button from "@/component/Button";
 import TreeInput from "@/component/Create/TreeInput";
@@ -17,6 +18,7 @@ const MOCK_OPTION = [
   { label: "Vue", value: 3 },
 ];
 
+// TODO: UI와 로직 분리
 export default function Create() {
   const [showGithubModal, setShowGithubModal] = useState(false);
   const [isLoadingGithubTree, setIsLoadingGithubTree] = useState(false);
@@ -41,6 +43,22 @@ export default function Create() {
     }
   };
 
+  const onRemove = (treeItem: TreeItem) => {
+    let originalTreeList = cloneDeep(treeList);
+    let treeRef = originalTreeList;
+
+    if (treeRef) {
+      const structureArr = treeItem.path.split("/");
+      const curName = structureArr.slice(-1)[0];
+      for (let i = 0; i < structureArr.length - 1; i++) {
+        treeRef = treeRef[structureArr[i]].children!;
+      }
+
+      delete treeRef[curName];
+      setTreeList(cloneDeep(originalTreeList));
+    }
+  };
+
   return (
     <>
       <Container>
@@ -60,7 +78,11 @@ export default function Create() {
               <SVG name="github" fill="#77bc88" />
               github Repository에서 받아오기
             </Button>
-            <TreeInput isLoading={isLoadingGithubTree} treeList={treeList} />
+            <TreeInput
+              isLoading={isLoadingGithubTree}
+              treeList={treeList}
+              onRemove={onRemove}
+            />
           </Item>
           <Item>
             <Label>github URL</Label>
