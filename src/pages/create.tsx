@@ -9,6 +9,7 @@ import { useState } from "react";
 import GithubModal from "@/component/Create/GithubModal";
 import {
   onRetrieveGithubTreeInfo,
+  replaceNameKeyToIdKey,
   transformGithubTreeResponse,
 } from "@/utils/tree.util";
 
@@ -32,8 +33,11 @@ export default function Create() {
       try {
         setIsLoadingGithubTree(true);
         const treeData = await onRetrieveGithubTreeInfo(args);
-        const list = transformGithubTreeResponse({ tree: treeData.tree });
-        setTreeList(list);
+        const listWithNameKey = transformGithubTreeResponse({
+          tree: treeData.tree,
+        });
+        const listWithIdKey = replaceNameKeyToIdKey(listWithNameKey, {}, []);
+        setTreeList(listWithIdKey);
         setGithubURL(`https://github.com/${args.owner}/${args.repo}`);
       } catch (error) {
         console.log(error);
@@ -48,13 +52,11 @@ export default function Create() {
     let treeRef = originalTreeList;
 
     if (treeRef) {
-      const structureArr = treeItem.path.split("/");
-      const curName = structureArr.slice(-1)[0];
-      for (let i = 0; i < structureArr.length - 1; i++) {
-        treeRef = treeRef[structureArr[i]].children!;
+      for (let i = 0; i < treeItem.parentList.length; i++) {
+        treeRef = treeRef[treeItem.parentList[i]].children!;
       }
 
-      delete treeRef[curName];
+      delete treeRef[treeItem.id];
       setTreeList(cloneDeep(originalTreeList));
     }
   };

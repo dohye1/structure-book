@@ -13,6 +13,7 @@ declare global {
     type: TreeItemType;
     name: string;
     path: string;
+    parentList: string[];
     description?: string;
   };
 
@@ -20,6 +21,7 @@ declare global {
     item: TreeItem;
     children?: TreeList;
   };
+
   type TreeList = Record<string, Tree>;
 
   type GithubTreeResponse = {

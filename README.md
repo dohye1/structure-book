@@ -184,3 +184,60 @@ path를 가지고있으면 부모의 정보를 가지고있는것이므로 depth
 
 </div>
 </details>
+
+<details>
+<summary>2023.02.28 - 03.01</summary>
+<div markdown="1">
+
+며칠동안 바빠서 작업을 많이 못했다ㅠㅜㅠㅜ
+
+음...지금 트리 데이터 구조떄문에 계속 고민이다...
+
+github 레포지토리에서 트리 데이터를 받아와서 그리는것까지는 했는데, depth를 어떻게 관리해야 효율적일지 모르겠ㄷ...
+
+폴더와 파일의 이름을 수정할때 depth가 깊은데이터를 직접 변경을 해야하는데, 어떻게 이 작업을 효율적으로 할 수 있을까????????
+
+예전에 한번 생각했던 방식이긴한데, tree data가 depth가 깊은 객체로 관리되고있고, 각 아이템의 id를 key로 관리하는게 지금 내가 생각할수있는 최선의 방식이다!!
+
+지금은 github에서 tree데이터를 받아오면 아래와 같은 구조로 만들고있는데,
+
+```javascript
+{
+  [name]:{
+    item:{item정보},
+    children:{
+      [name]:{
+        item:{item정보},
+        children:{}
+      },
+      [name]:{
+        item:{item정보},
+        children:{}
+      },
+    }
+  }
+}
+```
+
+위 구조에서 아래의 구조로 변환해주는 util을 추가했다!!
+
+```javascript
+{
+  [id]:{
+    item:{item정보},
+    children:{
+      [id]:{
+        item:{item정보},
+        children:{}
+      },
+      [id]:{
+        item:{item정보},
+        children:{}
+      },
+    }
+  }
+}
+```
+
+</div>
+</details>

@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import TreeItem from "@/component/Create/TreeItem";
 import { v4 as uuid } from "uuid";
 import { Octokit } from "@octokit/rest";
+import { cloneDeep } from "lodash";
 
 export const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
   const octokit = new Octokit();
@@ -82,6 +83,7 @@ export const transformGithubTreeResponse = ({
       id: uuid(),
       type: treeItemType,
       path: cur.path,
+      parentList: [],
       name: curName,
     };
 
@@ -99,4 +101,31 @@ export const transformGithubTreeResponse = ({
     }
     return acc;
   }, {} as TreeList);
+};
+
+// github에서 받아온 데이터를 depth가 있는 객체로 관리하고있는데,
+// key가 폴더/파일의 이름이기때문에, 폴더/파일의 이름을 수정하게되면 key를 변경해야한다.
+// 그래서 key를 id로 변경하는 util을 만들어줌
+
+export const replaceNameKeyToIdKey = (
+  treeList: TreeList,
+  mappedTree: TreeList,
+  parentList: string[]
+): TreeList => {
+  const currentItems = Object.values(treeList);
+  const copiedItems = cloneDeep(currentItems);
+
+  copiedItems.forEach(({ item, children = {} }) => {
+    mappedTree[item.id] = {
+      item: { ...item, parentList },
+      children: {},
+    };
+
+    replaceNameKeyToIdKey(children, mappedTree[item.id].children!, [
+      ...parentList,
+      item.id,
+    ]);
+  });
+
+  return mappedTree;
 };
