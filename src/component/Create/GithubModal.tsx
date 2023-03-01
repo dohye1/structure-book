@@ -98,11 +98,13 @@ export default function GithubModal({ onClose }: Props) {
           <Item>
             <Label>Choose Branch</Label>
             <Select
+              id="select-branch"
+              instanceId="select-branch"
               isDisabled={!branchOptions.length}
               options={branchOptions}
               value={selectedBranch}
               onChange={(value) => setSelectedBranch(value as Option)}
-              placeholder="알맞은 URL을 입력해주세요"
+              placeholder="Select target branch"
             />
           </Item>
         </Form>

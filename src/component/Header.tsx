@@ -55,7 +55,7 @@ const Logo = styled.div`
     justify-content: center;
     font-size: 24px;
     font-weight: 700;
-    color: ${theme.palette.beige5};
+    color: ${theme.palette.beige6};
     cursor: pointer;
   `}
 `;

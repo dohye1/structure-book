@@ -16,6 +16,6 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${theme.palette.beige5};
+    background-color: ${theme.palette.beige6};
   `}
 `;
