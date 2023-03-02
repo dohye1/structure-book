@@ -1,17 +1,9 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { cloneDeep } from "lodash";
 import Select from "react-select";
 import Button from "@/component/Button";
 import TreeInput from "@/component/Create/TreeInput";
-import SVG from "@/component/SVG";
 import { useState } from "react";
-import GithubModal from "@/component/Create/GithubModal";
-import {
-  onRetrieveGithubTreeInfo,
-  replaceNameKeyToIdKey,
-  transformGithubTreeResponse,
-} from "@/utils/tree.util";
 
 const MOCK_OPTION = [
   { label: "React", value: 1 },
@@ -19,46 +11,11 @@ const MOCK_OPTION = [
   { label: "Vue", value: 3 },
 ];
 
-// TODO: UI와 로직 분리
 export default function Create() {
-  const [showGithubModal, setShowGithubModal] = useState(false);
-  const [isLoadingGithubTree, setIsLoadingGithubTree] = useState(false);
   const [githubURL, setGithubURL] = useState("");
-  const [treeList, setTreeList] = useState<TreeList>();
 
-  const onOpenModal = () => setShowGithubModal(true);
-  const onCloseModal = async (args?: GithubTreeRequestArgs) => {
-    setShowGithubModal(false);
-    if (args) {
-      try {
-        setIsLoadingGithubTree(true);
-        const treeData = await onRetrieveGithubTreeInfo(args);
-        const listWithNameKey = transformGithubTreeResponse({
-          tree: treeData.tree,
-        });
-        const listWithIdKey = replaceNameKeyToIdKey(listWithNameKey, {}, []);
-        setTreeList(listWithIdKey);
-        setGithubURL(`https://github.com/${args.owner}/${args.repo}`);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoadingGithubTree(false);
-      }
-    }
-  };
-
-  const onRemove = (treeItem: TreeItem) => {
-    let originalTreeList = cloneDeep(treeList);
-    let treeRef = originalTreeList;
-
-    if (treeRef) {
-      for (let i = 0; i < treeItem.parentList.length; i++) {
-        treeRef = treeRef[treeItem.parentList[i]].children!;
-      }
-
-      delete treeRef[treeItem.id];
-      setTreeList(cloneDeep(originalTreeList));
-    }
+  const onChangeGithubURL = (myGithubURL: string) => {
+    setGithubURL(myGithubURL);
   };
 
   return (
@@ -68,7 +25,13 @@ export default function Create() {
           <Title>Share your project structure</Title>
           <Item>
             <Label>stack</Label>
-            <Select options={MOCK_OPTION} />
+            <Select
+              options={MOCK_OPTION}
+              onChange={() => {}}
+              id="select-project-stack"
+              instanceId="select-project-stack"
+              isMulti
+            />
           </Item>
           <Item>
             <Label>description</Label>
@@ -76,19 +39,11 @@ export default function Create() {
           </Item>
           <Item>
             <Label>tree</Label>
-            <Button isFilled={false} onClick={onOpenModal}>
-              <SVG name="github" fill="#77bc88" />
-              github Repository에서 받아오기
-            </Button>
-            <TreeInput
-              isLoading={isLoadingGithubTree}
-              treeList={treeList}
-              onRemove={onRemove}
-            />
+            <TreeInput onChangeGithubURL={onChangeGithubURL} />
           </Item>
           <Item>
             <Label>github URL</Label>
-            <Input value={githubURL} />
+            <Input value={githubURL} onChange={() => {}} />
           </Item>
           <ButtonWrapper>
             <Button isFilled={false}>Save</Button>
@@ -96,7 +51,6 @@ export default function Create() {
           </ButtonWrapper>
         </Form>
       </Container>
-      {showGithubModal && <GithubModal onClose={onCloseModal} />}
     </>
   );
 }
@@ -153,6 +107,9 @@ const Input = styled.input`
 const Textarea = styled.textarea`
   ${({ theme }) => css`
     min-height: 100px;
+    padding: 16px;
+    outline: none;
+    font-family: inherit;
   `}
 `;
 

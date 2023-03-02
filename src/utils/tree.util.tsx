@@ -1,5 +1,3 @@
-import React, { ReactNode } from "react";
-import TreeItem from "@/component/Create/TreeItem";
 import { v4 as uuid } from "uuid";
 import { Octokit } from "@octokit/rest";
 import { cloneDeep } from "lodash";
@@ -18,54 +16,20 @@ export const onRetrieveGithubTreeInfo = async (args: GithubTreeRequestArgs) => {
   return treeData.data;
 };
 
-export const makeStructureTree = ({
-  list,
-  treeInfo,
-  depth = 0,
-  onRemove,
-}: {
-  list: ReactNode[];
-  treeInfo: Tree;
-  depth?: number;
-  onRemove: (treeItem: TreeItem) => void;
-}) => {
-  if (treeInfo.item.type === "FILE") {
-    list.push(
-      <TreeItem
-        treeItem={treeInfo.item}
-        key={treeInfo.item.id}
-        depth={depth}
-        onRemove={onRemove}
-      />
-    );
-  }
-  if (treeInfo.item.type === "FOLDER") {
-    const childrenArr = Object.values(treeInfo.children ?? {});
-    if (childrenArr.length) {
-      list.push(
-        <TreeItem
-          treeItem={treeInfo.item}
-          key={treeInfo.item.id}
-          depth={depth}
-          onRemove={onRemove}
-        />
-      );
-      childrenArr.map((tree) =>
-        makeStructureTree({ list, treeInfo: tree, depth: depth + 1, onRemove })
-      );
-    } else {
-      list.push(
-        <TreeItem
-          treeItem={treeInfo.item}
-          key={treeInfo.item.id}
-          depth={depth}
-          onRemove={onRemove}
-        />
-      );
-    }
+// tree data를 일렬로 세우기
+export const normalizeTreeData = (treeList?: TreeList): TreeItem[] => {
+  if (!treeList) {
+    return [];
   }
 
-  return list;
+  let dataList: TreeItem[] = [];
+  return Object.values(treeList).reduce((acc, cur) => {
+    acc.push(cur.item);
+    const getChildrenList = normalizeTreeData(cur.children ?? {});
+    acc.push(...getChildrenList);
+
+    return acc;
+  }, dataList);
 };
 
 export const transformGithubTreeResponse = ({

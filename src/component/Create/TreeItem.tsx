@@ -1,32 +1,48 @@
+import useOutsideClick from "@/hooks/useOutsideClick";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
-import Button from "../Button";
+import React, { useRef } from "react";
 import SVG from "../SVG";
 
 type Props = {
   treeItem: TreeItem;
   depth: number;
   onRemove: (treeItem: TreeItem) => void;
+  onClick: (treeItem: TreeItem) => void;
+  onBlur: () => void;
+  isSelected: boolean;
 };
 
-// TODO:
-// 1. 이름 수정기능
-// 2. description입력방식 생각해보기
-// 3. 삭제기능
+export default function TreeItem({
+  treeItem,
+  depth,
+  onRemove,
+  onClick,
+  onBlur,
+  isSelected,
+}: Props) {
+  const domRef = useRef<HTMLDivElement>(null);
 
-export default function TreeItem({ treeItem, depth, onRemove }: Props) {
+  // useOutsideClick(domRef, onBlur);
+
   return (
-    <Container depth={depth}>
+    <Container
+      ref={domRef}
+      depth={depth}
+      onClick={() => onClick(treeItem)}
+      isSelected={isSelected}
+    >
       <TreeInfo>
         <SVG
           name={treeItem.type === "FOLDER" ? "folderOpen" : "file"}
           fill="#5E5E5E"
         />
-        <Name>{treeItem.name}</Name>
+        <NameWrapper>
+          <Name>{treeItem.name}</Name>
+        </NameWrapper>
       </TreeInfo>
       <RemoveButton onClick={() => onRemove(treeItem)}>
-        <SVG name="trash" fill="currentcolor" />
+        <SVG name="trash" fill="currentcolor" width={12} height={12} />
       </RemoveButton>
     </Container>
   );
@@ -41,11 +57,11 @@ const RemoveButton = styled.div`
     align-items: center;
     justify-content: center;
     & svg {
-      color: #beb9ab;
+      color: ${theme.palette.beige5};
     }
     &:hover {
       & svg {
-        color: #8c877a;
+        color: ${theme.palette.beige3};
       }
     }
   `}
@@ -59,8 +75,8 @@ const TreeInfo = styled.div`
   `}
 `;
 
-const Container = styled.div<{ depth: number }>`
-  ${({ theme, depth }) => css`
+const Container = styled.div<{ depth: number; isSelected: boolean }>`
+  ${({ theme, depth, isSelected }) => css`
     width: 100%;
     height: 50px;
     display: flex;
@@ -69,6 +85,18 @@ const Container = styled.div<{ depth: number }>`
     padding-left: ${(depth + 1) * 30}px;
     padding-right: 30px;
     display: flex;
+    cursor: pointer;
+    ${isSelected &&
+    css`
+      background-color: ${theme.palette.beige4};
+    `}
+  `}
+`;
+
+const NameWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    column-gap: 4px;
   `}
 `;
 
