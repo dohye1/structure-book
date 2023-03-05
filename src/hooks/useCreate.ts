@@ -191,6 +191,7 @@ export default function useCreate({ onChangeGithubURL }: Props) {
     isLoadingGithubTree,
     normalizedList,
     containerRef,
+    treeList,
     onRemove,
     onClickRow,
     onAddTree,

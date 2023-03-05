@@ -1,9 +1,9 @@
 export {};
 
 declare global {
-  type Option = {
+  type Option<T> = {
     label: string;
-    value: string;
+    value: T;
   };
 
   type GithubTreeRequestArgs = {

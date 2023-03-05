@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import Button from "./Button";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";

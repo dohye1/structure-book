@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import Button from "../Button";
 import ControlButton from "../ControlButton";
 import GithubModal from "@/component/Create/GithubModal";
@@ -13,13 +13,17 @@ type Props = {
   onChangeGithubURL: (githubURL: string) => void;
 };
 
-export default function TreeInput(props: Props) {
+const TreeInput = forwardRef<
+  { getTreeList: () => TreeList } | undefined,
+  Props
+>((props, ref) => {
   const {
     showGithubModal,
     selectedRow,
     isLoadingGithubTree,
     normalizedList,
     containerRef,
+    treeList,
     onRemove,
     onClickRow,
     onAddTree,
@@ -28,6 +32,10 @@ export default function TreeInput(props: Props) {
     onSave,
     onBlur,
   } = useCreate(props);
+
+  useImperativeHandle(ref, () => ({
+    getTreeList: () => treeList,
+  }));
 
   if (isLoadingGithubTree) {
     return <div>loading..</div>;
@@ -69,7 +77,11 @@ export default function TreeInput(props: Props) {
       {showGithubModal && <GithubModal onClose={onCloseModal} />}
     </Container>
   );
-}
+});
+
+TreeInput.displayName = "TreeInput";
+
+export default TreeInput;
 
 const Container = styled.div`
   ${({ theme }) => css`
