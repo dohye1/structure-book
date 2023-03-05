@@ -14,9 +14,9 @@ type Props = {
 const GITHUB_REGEX = /https:\/\/github.com\/(.*)\/(.*)/;
 
 export default function GithubModal({ onClose }: Props) {
-  const [branchOptions, setBranchOptions] = useState<Option[]>([]);
+  const [branchOptions, setBranchOptions] = useState<Option<string>[]>([]);
   const [githubURL, setGithubURL] = useState<string>("");
-  const [selectedBranch, setSelectedBranch] = useState<Option>();
+  const [selectedBranch, setSelectedBranch] = useState<Option<string>>();
   const [error, setError] = useState("");
   const githubRef = useRef<GithubTreeRequestArgs>();
 
@@ -103,7 +103,7 @@ export default function GithubModal({ onClose }: Props) {
               isDisabled={!branchOptions.length}
               options={branchOptions}
               value={selectedBranch}
-              onChange={(value) => setSelectedBranch(value as Option)}
+              onChange={(value) => setSelectedBranch(value as Option<string>)}
               placeholder="Select target branch"
             />
           </Item>
