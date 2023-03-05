@@ -282,5 +282,14 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 그런데 각 폴더의 설명을 어떻게 추가할가했는데, 지금은 description에 적도록할거다.
 그래서 description을 texteditor로 작성할수있게 변경할거다!!
 
+-------
+일단 생성하기 버튼을 눌렀을때, 제출해야하는 데이터를 콘솔로 출력해봄
+
+<img width="400" alt="github file data" src="https://user-images.githubusercontent.com/64346737/222958997-98e41256-0b85-4be8-888d-5b92d9dd6c07.png">
+
+근데 필수값 처리를 안해줘서 form라이브러리를 쓸까 고민중...
+일단은 db에 데이터 쌓는걸 먼저해보자
+
+벌써 떨리는군...^^
 </div>
 </details>
