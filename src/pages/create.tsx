@@ -12,6 +12,7 @@ const MOCK_OPTION = [
 ];
 
 export default function Create() {
+  // TODO: hook으로 넣기
   const [githubURL, setGithubURL] = useState("");
 
   const onChangeGithubURL = (myGithubURL: string) => {

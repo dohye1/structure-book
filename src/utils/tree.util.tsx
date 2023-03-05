@@ -25,9 +25,10 @@ export const normalizeTreeData = (treeList?: TreeList): TreeItem[] => {
   let dataList: TreeItem[] = [];
   return Object.values(treeList).reduce((acc, cur) => {
     acc.push(cur.item);
-    const getChildrenList = normalizeTreeData(cur.children ?? {});
-    acc.push(...getChildrenList);
-
+    if (cur.item.isOpen) {
+      const getChildrenList = normalizeTreeData(cur.children ?? {});
+      acc.push(...getChildrenList);
+    }
     return acc;
   }, dataList);
 };
@@ -49,6 +50,7 @@ export const transformGithubTreeResponse = ({
       path: cur.path,
       parentList: [],
       name: curName,
+      isOpen: false,
     };
 
     let treeRef: TreeList = acc;

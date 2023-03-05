@@ -9,7 +9,7 @@ type Props = {
   onSave: (treeItem: TreeItem, name?: string) => void;
 };
 
-export default function SimpleTreeItem({ treeItem, depth, onSave }: Props) {
+export default function TreeTempItem({ treeItem, depth, onSave }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onBlur = () => {
@@ -41,12 +41,12 @@ const Container = styled.div<{ depth: number }>`
   ${({ theme, depth }) => css`
     width: 100%;
     height: 50px;
-    column-gap: 16px;
+    column-gap: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: ${(depth + 1) * 30}px;
-    padding-right: 30px;
+    padding-left: ${(depth + 1) * 16 + 16 + 12}px;
+    padding-right: 16px;
     display: flex;
     cursor: pointer;
   `}

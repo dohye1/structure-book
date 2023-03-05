@@ -1,7 +1,6 @@
-import useOutsideClick from "@/hooks/useOutsideClick";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useRef } from "react";
+import React from "react";
 import SVG from "../SVG";
 
 type Props = {
@@ -9,29 +8,30 @@ type Props = {
   depth: number;
   onRemove: (treeItem: TreeItem) => void;
   onClick: (treeItem: TreeItem) => void;
-  onBlur: () => void;
   isSelected: boolean;
 };
 
 export default function TreeItem({
   treeItem,
   depth,
+  isSelected,
   onRemove,
   onClick,
-  onBlur,
-  isSelected,
 }: Props) {
-  const domRef = useRef<HTMLDivElement>(null);
-
-  // useOutsideClick(domRef, onBlur);
-
   return (
     <Container
-      ref={domRef}
       depth={depth}
       onClick={() => onClick(treeItem)}
       isSelected={isSelected}
     >
+      <Toggle>
+        {treeItem.type === "FOLDER" && (
+          <SVG
+            name={treeItem.isOpen ? "chevronDown" : "chevronRight"}
+            fill="#312D23"
+          />
+        )}
+      </Toggle>
       <TreeInfo>
         <SVG
           name={treeItem.type === "FOLDER" ? "folderOpen" : "file"}
@@ -41,12 +41,22 @@ export default function TreeItem({
           <Name>{treeItem.name}</Name>
         </NameWrapper>
       </TreeInfo>
-      <RemoveButton onClick={() => onRemove(treeItem)}>
+      <RemoveButton
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(treeItem);
+        }}
+      >
         <SVG name="trash" fill="currentcolor" width={12} height={12} />
       </RemoveButton>
     </Container>
   );
 }
+
+const Toggle = styled.div`
+  width: 16px;
+  height: 16px;
+`;
 
 const RemoveButton = styled.div`
   ${({ theme }) => css`
@@ -72,6 +82,7 @@ const TreeInfo = styled.div`
     display: flex;
     align-items: center;
     column-gap: 16px;
+    flex: 1;
   `}
 `;
 
@@ -82,10 +93,11 @@ const Container = styled.div<{ depth: number; isSelected: boolean }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: ${(depth + 1) * 30}px;
-    padding-right: 30px;
+    padding-left: ${(depth + 1) * 16}px;
+    padding-right: 16px;
     display: flex;
     cursor: pointer;
+    column-gap: 12px;
     ${isSelected &&
     css`
       background-color: ${theme.palette.beige4};

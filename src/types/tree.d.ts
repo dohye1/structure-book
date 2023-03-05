@@ -8,17 +8,15 @@ declare global {
 
   type TreeItemType = typeof TreeItemTypeEnum[keyof typeof TreeItemTypeEnum];
 
-  type SimpleTreeItem = {
+  type TreeItem = {
     id: string;
     type: TreeItemType;
     parentList: string[];
     isTemporary?: boolean;
-  };
-
-  type TreeItem = SimpleTreeItem & {
     name: string;
     path: string;
     description?: string;
+    isOpen?: boolean;
   };
 
   type Tree = {

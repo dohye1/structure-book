@@ -10,7 +10,9 @@ type SVGName =
   | "file"
   | "edit"
   | "folderAdd"
-  | "fileAdd";
+  | "fileAdd"
+  | "chevronDown"
+  | "chevronRight";
 
 type Props = {
   name: SVGName;
@@ -23,6 +25,36 @@ function SVG({ name, fill, width: customWidth, height: customHeight }: Props) {
   const { viewBoxHeight, viewBoxWidth, width, height, elements } =
     useMemo(() => {
       switch (name) {
+        case "chevronRight":
+          return {
+            viewBoxWidth: 16,
+            viewBoxHeight: 16,
+            width: customWidth ?? 16,
+            height: customHeight ?? 16,
+            elements: [
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M10.71 7.29L6.71 3.29C6.53 3.11 6.28 3 6 3C5.45 3 5 3.45 5 4C5 4.28 5.11 4.53 5.29 4.71L8.59 8L5.3 11.29C5.11 11.47 5 11.72 5 12C5 12.55 5.45 13 6 13C6.28 13 6.53 12.89 6.71 12.71L10.71 8.71C10.89 8.53 11 8.28 11 8C11 7.72 10.89 7.47 10.71 7.29Z"
+                fill={fill || "#8F95B2"}
+              />,
+            ],
+          };
+        case "chevronDown":
+          return {
+            viewBoxWidth: 16,
+            viewBoxHeight: 16,
+            width: customWidth ?? 16,
+            height: customHeight ?? 16,
+            elements: [
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M12 5C11.72 5 11.47 5.11 11.29 5.29L8 8.59L4.71 5.29C4.53 5.11 4.28 5 4 5C3.45 5 3 5.45 3 6C3 6.28 3.11 6.53 3.29 6.71L7.29 10.71C7.47 10.89 7.72 11 8 11C8.28 11 8.53 10.89 8.71 10.71L12.71 6.71C12.89 6.53 13 6.28 13 6C13 5.45 12.55 5 12 5Z"
+                fill={fill || "#8F95B2"}
+              />,
+            ],
+          };
         case "fileAdd":
           return {
             viewBoxWidth: 31,

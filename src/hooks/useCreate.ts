@@ -1,12 +1,13 @@
 import { normalizeTreeData } from "@/utils/tree.util";
 import { cloneDeep } from "lodash";
 import { v4 as uuid } from "uuid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   onRetrieveGithubTreeInfo,
   replaceNameKeyToIdKey,
   transformGithubTreeResponse,
 } from "@/utils/tree.util";
+import useOutsideClick from "./useOutsideClick";
 
 type Props = {
   onChangeGithubURL: (githubURL: string) => void;
@@ -27,6 +28,7 @@ export default function useCreate({ onChangeGithubURL }: Props) {
           name: "index.html",
           path: "index.html",
           parentList: [],
+          isOpen: false,
         },
       },
     };
@@ -35,9 +37,14 @@ export default function useCreate({ onChangeGithubURL }: Props) {
     normalizeTreeData(treeList)
   );
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // =======TreeItem Action=======
   // FIXME: 뭔가 putTempItem랑 합쳐질수있을것같기도한디?
   const onRemove = (treeItem: TreeItem) => {
+    if (selectedRow?.id === treeItem.id) {
+      setSelectedRow(undefined);
+    }
     let originalTreeList = cloneDeep(treeList);
     let treeRef = originalTreeList;
 
@@ -49,26 +56,39 @@ export default function useCreate({ onChangeGithubURL }: Props) {
     setTreeList(cloneDeep(originalTreeList));
   };
 
-  const onClickRow = (item: TreeItem) => setSelectedRow(item);
+  // row selection과 toggle이 동시에 발생함
+  const onClickRow = (item: TreeItem) => {
+    if (item.type === "FOLDER") {
+      updateTreeItemInfo(item, { isOpen: !item.isOpen });
+    }
+    setSelectedRow(item);
+  };
 
   const putTempItem = (putIn: boolean, treeItem: TreeItem) => {
     // 선택된 target이 없을때
+    const originalTreeList = cloneDeep(treeList);
+
     if (!treeItem?.parentList.length) {
       if (putIn) {
         setTreeList({ [treeItem.id]: { item: treeItem }, ...treeList });
       } else {
-        const copiedList = cloneDeep(treeList);
-        delete copiedList[treeItem.id];
-        setTreeList(copiedList);
+        delete originalTreeList[treeItem.id];
+        setTreeList(originalTreeList);
       }
       return;
     }
 
-    const originalTreeList = cloneDeep(treeList);
     let treeRef = originalTreeList;
     for (let i = 0; i < treeItem.parentList.length; i++) {
       const parentId = treeItem.parentList[i];
       treeRef[parentId] = { children: {}, ...treeRef[parentId] };
+
+      if (
+        selectedRow?.type === "FOLDER" &&
+        treeRef[parentId].item.id === selectedRow?.id
+      ) {
+        treeRef[parentId].item.isOpen = true;
+      }
       treeRef = treeRef[parentId].children!;
     }
 
@@ -105,17 +125,14 @@ export default function useCreate({ onChangeGithubURL }: Props) {
         : selectedRow.parentList
       : [];
 
-    const treeItem: SimpleTreeItem = {
+    const newItem = {
       id: newId,
       type: type,
       parentList,
-    };
-
-    const newItem = {
-      ...treeItem,
       isTemporary: true,
       name: "",
       path: "",
+      isOpen: false,
     };
     putTempItem(true, newItem);
   };
@@ -166,11 +183,14 @@ export default function useCreate({ onChangeGithubURL }: Props) {
     setNormalizedList(normalizeTreeData(treeList));
   }, [treeList]);
 
+  useOutsideClick(containerRef, onBlur);
+
   return {
     showGithubModal,
     selectedRow,
     isLoadingGithubTree,
     normalizedList,
+    containerRef,
     onRemove,
     onClickRow,
     onAddTree,

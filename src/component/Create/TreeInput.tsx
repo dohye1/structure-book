@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { Fragment } from "react";
+import React from "react";
 import Button from "../Button";
 import ControlButton from "../ControlButton";
 import GithubModal from "@/component/Create/GithubModal";
@@ -19,6 +19,7 @@ export default function TreeInput(props: Props) {
     selectedRow,
     isLoadingGithubTree,
     normalizedList,
+    containerRef,
     onRemove,
     onClickRow,
     onAddTree,
@@ -33,13 +34,13 @@ export default function TreeInput(props: Props) {
   }
 
   return (
-    <Fragment>
+    <Container ref={containerRef}>
       <Button isFilled={false} onClick={onOpenModal}>
         <SVG name="github" fill="#77bc88" />
         github Repository에서 받아오기
       </Button>
       <ControlButton onAddTree={(itemType) => onAddTree(itemType)} />
-      <Container>
+      <TreeList>
         {normalizedList.length
           ? normalizedList.map((item) => {
               if (item.isTemporary) {
@@ -58,20 +59,28 @@ export default function TreeInput(props: Props) {
                   key={item.id}
                   depth={item.parentList.length}
                   isSelected={selectedRow?.id === item.id}
-                  onBlur={onBlur}
                   onRemove={onRemove}
                   onClick={onClickRow}
                 />
               );
             })
           : "empty"}
-      </Container>
+      </TreeList>
       {showGithubModal && <GithubModal onClose={onCloseModal} />}
-    </Fragment>
+    </Container>
   );
 }
 
 const Container = styled.div`
+  ${({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+  `}
+`;
+
+const TreeList = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.palette.white};
     border: 1px solid ${theme.palette.gray4};
