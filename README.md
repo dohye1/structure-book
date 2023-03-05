@@ -264,3 +264,23 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 
 </div>
 </details>
+
+
+<details>
+<summary>2023.03.05</summary>
+<div markdown="1">
+그동안 일이 좀 많아서 작업을 못했음ㅠㅜㅠㅜ
+
+오늘은 tree toggle기능을 추가햇다.
+
+깃헙 트리 구조를 받아왔을때, 모든 파일과 폴더를 한번에 다 그리니깐 화면에서 차지하는 영역이 너무 길어져서 맨처음에는 tree를 접은상태로 보여주고싶었다.
+
+![Mar-05-2023 17-33-25](https://user-images.githubusercontent.com/64346737/222950318-04074042-d8c6-4fd6-8dff-bb4719aaa14c.gif)
+
+이제 form 제출부분만 남았다
+
+그런데 각 폴더의 설명을 어떻게 추가할가했는데, 지금은 description에 적도록할거다.
+그래서 description을 texteditor로 작성할수있게 변경할거다!!
+
+</div>
+</details>
