@@ -11,10 +11,10 @@ type Props = {
 export default function ControlButton({ onAddTree }: Props) {
   return (
     <Container>
-      <CommonButton onClick={() => onAddTree("FOLDER")}>
+      <CommonButton onClick={() => onAddTree("FOLDER")} type="button">
         <SVG name="folderAdd" width={24} height={24} fill="#5E5E5E" />
       </CommonButton>
-      <CommonButton onClick={() => onAddTree("FILE")}>
+      <CommonButton onClick={() => onAddTree("FILE")} type="button">
         <SVG name="fileAdd" width={24} height={24} fill="#5E5E5E" />
       </CommonButton>
     </Container>

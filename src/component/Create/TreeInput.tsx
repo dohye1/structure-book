@@ -43,7 +43,7 @@ const TreeInput = forwardRef<
 
   return (
     <Container ref={containerRef}>
-      <Button isFilled={false} onClick={onOpenModal}>
+      <Button isFilled={false} onClick={onOpenModal} type="button">
         <SVG name="github" fill="#77bc88" />
         github Repository에서 받아오기
       </Button>
