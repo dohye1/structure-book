@@ -243,11 +243,10 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 
 거의 하루종일 데이터구조+기능구현한다고 쓴듯ㅋ쿠ㅜ 그래도 성공!!!!
 근데 코드가 점점 지저분해진다.
-  
-더 진행하기전에 이젠 정말 로직을 분리해야할듯
-  
-![Mar-02-2023 09-20-58](https://user-images.githubusercontent.com/64346737/222297713-927cef19-60f5-4b62-afb8-106994504a93.gif)
 
+더 진행하기전에 이젠 정말 로직을 분리해야할듯
+
+![Mar-02-2023 09-20-58](https://user-images.githubusercontent.com/64346737/222297713-927cef19-60f5-4b62-afb8-106994504a93.gif)
 
 </div>
 </details>
@@ -265,7 +264,6 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 </div>
 </details>
 
-
 <details>
 <summary>2023.03.05</summary>
 <div markdown="1">
@@ -282,7 +280,8 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 그런데 각 폴더의 설명을 어떻게 추가할가했는데, 지금은 description에 적도록할거다.
 그래서 description을 texteditor로 작성할수있게 변경할거다!!
 
--------
+---
+
 일단 생성하기 버튼을 눌렀을때, 제출해야하는 데이터를 콘솔로 출력해봄
 
 <img width="400" alt="github file data" src="https://user-images.githubusercontent.com/64346737/222958997-98e41256-0b85-4be8-888d-5b92d9dd6c07.png">
@@ -291,5 +290,22 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 일단은 db에 데이터 쌓는걸 먼저해보자
 
 벌써 떨리는군...^^
+
+</div>
+</details>
+
+<details>
+<summary>2023.03.06</summary>
+<div markdown="1">
+
+오늘은 login처리를 했다.
+이 웹사이트는 개발자들만 쓸것같아서 github계정으로 연동하려고했다.
+
+근데 난 서버리스로 만들거라 firebase로 연동을 해봤다.
+
+생각보다 엄청 간단함...!!!!
+
+낼은 낮에 client state를 어떤 방식으로 관리할지 고민을 해보고 저녁에 구현을 해볼것이다!!
+
 </div>
 </details>

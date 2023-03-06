@@ -3,9 +3,11 @@ import Button from "./Button";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useRouter } from "next/router";
+import useLogin from "@/hooks/useLogin";
 
 function Header() {
   const router = useRouter();
+  const { githubLogin } = useLogin();
 
   const onNavigateToHome = () => {
     router.push("/");
@@ -17,10 +19,17 @@ function Header() {
 
   const hideButton = router.pathname.includes("create");
 
+  const onLogin = () => {
+    githubLogin();
+  };
+
   return (
     <Container>
       <Logo onClick={onNavigateToHome}>STRUCTURE BOOK</Logo>
       <RightSection>
+        <Button onClick={onLogin} size={"small"}>
+          Github Login
+        </Button>
         {!hideButton && (
           <Button onClick={onCreateStructure} size={"small"}>
             Add New Structure
