@@ -43,11 +43,18 @@ const TreeInput = forwardRef<
 
   return (
     <Container ref={containerRef}>
-      <Button isFilled={false} onClick={onOpenModal} type="button">
-        <SVG name="github" fill="#77bc88" />
-        github Repository에서 받아오기
-      </Button>
-      <ControlButton onAddTree={(itemType) => onAddTree(itemType)} />
+      <ButtonWrapper>
+        <ControlButton onAddTree={(itemType) => onAddTree(itemType)} />
+        <Button
+          isFilled={false}
+          onClick={onOpenModal}
+          type="button"
+          size="small"
+        >
+          <SVG name="github" fill="#77bc88" />
+          Retrieve from github
+        </Button>
+      </ButtonWrapper>
       <TreeList>
         {normalizedList.length
           ? normalizedList.map((item) => {
@@ -82,6 +89,13 @@ const TreeInput = forwardRef<
 TreeInput.displayName = "TreeInput";
 
 export default TreeInput;
+
+const ButtonWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
+  `}
+`;
 
 const Container = styled.div`
   ${({ theme }) => css`

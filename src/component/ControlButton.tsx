@@ -24,6 +24,7 @@ export default function ControlButton({ onAddTree }: Props) {
 const Container = styled.div`
   ${({ theme }) => css`
     width: fit-content;
+    height: 100%;
     border-radius: 4px;
     border: 1px solid ${theme.palette.gray4};
     background-color: ${theme.palette.gray8};
@@ -34,7 +35,8 @@ const Container = styled.div`
 const CommonButton = styled.button`
   ${({ theme }) => css`
     border: none;
-    padding: 6px 10px;
+    padding: 0 10px;
+    height: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
