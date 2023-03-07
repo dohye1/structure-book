@@ -1,5 +1,13 @@
 # structure-book
 
+## TODO LIST
+
+- [ ] zustand with nextjs
+- [ ] styling
+- [ ] 공용 컴포넌트
+- [ ] 반응형
+- [ ] dark mode 지원
+
 ### 완전 재미있는 아이디어가 떠올라서 사이드프로젝트를 만드려고한다!
 
 프로젝트의 폴더구조를 공유할수있는 웹사이트를 만들거다
@@ -306,6 +314,23 @@ github 레포지토리에서 트리 데이터를 받아와서 그리는것까지
 생각보다 엄청 간단함...!!!!
 
 낼은 낮에 client state를 어떤 방식으로 관리할지 고민을 해보고 저녁에 구현을 해볼것이다!!
+
+</div>
+</details>
+
+<details>
+<summary>2023.03.07</summary>
+<div markdown="1">
+
+user data(client state)를 zustand로 관리하려고한다.
+zustand를 실무에서 써보긴했지만 너무 가볍게 찍먹한느낌이라, 이번엔 공식문서좀 보고 어떤 기능들이있는지도 체크해보고 사용해보려고한다!!
+
+[nextjs와 zustand를 함께 사용한 글](https://velog.io/@yhg0337/%EB%91%90%EB%B2%88%EC%A7%B8.-Zustand%EC%99%80-%ED%95%A8%EA%BB%98-SSR-Hydration#zustand-store-ssr%EA%B3%BC-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)을 보고 한번 따라해보려고한다.
+
+nextjs와 함께쓰면 zustand의 데이터를 사용해 hydration작업을 또 해줘야하는것같다....맞나..?
+
+일단 돌아가게만드는게 목표라 데이터 생성하는거 먼저 하고난 뒤에 이 작업을 할거다.
+투두가 점점 늘어나니 기록을해놔야겠음!!
 
 </div>
 </details>
