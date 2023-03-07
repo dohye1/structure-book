@@ -1,6 +1,8 @@
 export {};
 
 declare global {
+  type Nullable<T> = null | T;
+
   type Option<T> = {
     label: string;
     value: T;

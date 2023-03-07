@@ -4,8 +4,16 @@ declare global {
   type User = {
     id: string;
     token: string;
-    displayName?: string;
+    displayName?: Nullable<string>;
     email: string;
-    photoURL?: string;
+    photoURL?: Nullable<string>;
+  };
+
+  type UserDetail = User & {
+    comments: Comment[];
+  };
+
+  type Comment = {
+    id: string;
   };
 }
