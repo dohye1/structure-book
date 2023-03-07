@@ -10,10 +10,7 @@ declare global {
   };
 
   type UserDetail = User & {
-    comments: Comment[];
-  };
-
-  type Comment = {
-    id: string;
+    // comments: Comment[];
+    // likes: string[];
   };
 }

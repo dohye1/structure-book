@@ -37,7 +37,7 @@ export default function Create() {
   return (
     <>
       <Container>
-        <Form onSubmit={onSubmit}>
+        <Form>
           <Title>Share your project structure</Title>
           <Item>
             <Label required>Stack</Label>
@@ -66,13 +66,14 @@ export default function Create() {
             <Input
               value={githubURL}
               onChange={(e) => onChangeGithubURL(e.target.value)}
+              placeholder="ex) https://github.com/owner/repository"
             />
           </Item>
           <ButtonWrapper>
             <Button isFilled={false} variant="secondary">
               Save
             </Button>
-            <Button type="submit" variant="secondary">
+            <Button variant="secondary" onClick={onSubmit}>
               Create
             </Button>
           </ButtonWrapper>
