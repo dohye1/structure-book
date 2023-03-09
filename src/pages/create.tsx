@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import Select from "react-select";
+import { useRouter } from "next/router";
 import Button from "@/component/Button";
 import TreeInput from "@/component/Create/TreeInput";
 import { FormEvent, useRef, useState } from "react";
@@ -17,7 +18,14 @@ const MOCK_OPTION = [
 ];
 
 export default function Create() {
-  const { mutate } = useMutation(["post", "create"], createPost);
+  const router = useRouter();
+  const { mutate } = useMutation(["post", "create"], createPost, {
+    onSuccess: (id) => {
+      if (id) {
+        router.replace(`/post/${id}`);
+      }
+    },
+  });
   const user = userStore((state) => state.user);
 
   // TODO: hook으로 넣기
@@ -149,15 +157,6 @@ const Label = styled.div<{ required?: boolean }>`
 const Input = styled.input`
   ${({ theme }) => css`
     padding: 8px 16px;
-  `}
-`;
-
-const Textarea = styled.textarea`
-  ${({ theme }) => css`
-    min-height: 100px;
-    padding: 16px;
-    outline: none;
-    font-family: inherit;
   `}
 `;
 

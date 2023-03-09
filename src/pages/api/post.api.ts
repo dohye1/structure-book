@@ -49,6 +49,7 @@ export const createPost = async (newPost: CreatePost) => {
     const changeFormFormat = { ...newPost, treeList: treeListStr };
 
     const docRef = await addDoc(collection(db, "post"), changeFormFormat);
+    return docRef.id;
   } catch (e) {
     console.error("fail to create post : ", e);
   }
