@@ -6,22 +6,24 @@ import SVG from "../SVG";
 type Props = {
   treeItem: TreeItem;
   depth: number;
-  onRemove: (treeItem: TreeItem) => void;
-  onClick: (treeItem: TreeItem) => void;
-  isSelected: boolean;
+  onRemove?: (treeItem: TreeItem) => void;
+  onClick?: (treeItem: TreeItem) => void;
+  isSelected?: boolean;
+  readOnly?: boolean;
 };
 
 export default function TreeItem({
   treeItem,
   depth,
-  isSelected,
+  isSelected = false,
   onRemove,
   onClick,
+  readOnly,
 }: Props) {
   return (
     <Container
       depth={depth}
-      onClick={() => onClick(treeItem)}
+      onClick={() => onClick?.(treeItem)}
       isSelected={isSelected}
     >
       <Toggle>
@@ -41,14 +43,16 @@ export default function TreeItem({
           <Name>{treeItem.name}</Name>
         </NameWrapper>
       </TreeInfo>
-      <RemoveButton
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove(treeItem);
-        }}
-      >
-        <SVG name="trash" fill="currentcolor" width={12} height={12} />
-      </RemoveButton>
+      {!readOnly && (
+        <RemoveButton
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove?.(treeItem);
+          }}
+        >
+          <SVG name="trash" fill="currentcolor" width={12} height={12} />
+        </RemoveButton>
+      )}
     </Container>
   );
 }
@@ -89,7 +93,7 @@ const TreeInfo = styled.div`
 const Container = styled.div<{ depth: number; isSelected: boolean }>`
   ${({ theme, depth, isSelected }) => css`
     width: 100%;
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;

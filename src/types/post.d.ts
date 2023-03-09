@@ -5,7 +5,7 @@ declare global {
     id: string;
     writer: User;
     stackList: Option<number>[];
-    treeList: string;
+    treeList: TreeList;
     description?: string;
     githubURL?: string;
   };

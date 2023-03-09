@@ -95,3 +95,22 @@ export const replaceNameKeyToIdKey = (
 
   return mappedTree;
 };
+
+// treeItem하나의 정보를 변경하지만, treeList 자체를 업데이트해야함
+export const updateTreeItemInfo = (
+  treeList: TreeList,
+  treeItem: TreeItem,
+  editedInfo: Partial<TreeItem>
+) => {
+  const originalTreeList = cloneDeep(treeList);
+  let treeRef = originalTreeList;
+  for (let i = 0; i < treeItem.parentList.length; i++) {
+    const parentId = treeItem.parentList[i];
+    treeRef[parentId] = { children: {}, ...treeRef[parentId] };
+    treeRef = treeRef[parentId].children!;
+  }
+
+  treeRef[treeItem.id].item = { ...treeItem, ...editedInfo };
+
+  return originalTreeList;
+};

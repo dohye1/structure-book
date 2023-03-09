@@ -53,6 +53,7 @@ const Container = styled.div`
     box-sizing: border-box;
     align-items: flex-start;
     justify-content: flex-start;
+    cursor: pointer;
     background-color: ${theme.palette.beige6};
   `}
 `;

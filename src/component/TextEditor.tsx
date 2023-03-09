@@ -12,28 +12,50 @@ const TEXT_EDITOR_HEIGHT = 200;
 
 type Props = {
   value: Value;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
+  readOnly?: boolean;
 };
 
-export default function TextEditor({ value, onChange }: Props) {
+export default function TextEditor({
+  value,
+  onChange,
+  readOnly = false,
+}: Props) {
   return (
-    <Container>
+    <Container readOnly={readOnly}>
       <QuillNoSSRWrapper
-        modules={modules}
+        modules={readOnly ? undefined : modules}
+        readOnly={readOnly}
+        theme="snow"
         value={value}
         onChange={onChange}
-        formats={formats}
-        style={{ height: `${TEXT_EDITOR_HEIGHT - 42}px` }}
+        formats={readOnly ? undefined : formats}
       />
     </Container>
   );
 }
 
-const Container = styled.div`
-  ${({ theme }) => css`
+const Container = styled.div<{ readOnly: boolean }>`
+  ${({ theme, readOnly }) => css`
     background-color: ${theme.palette.white};
     height: fit-content;
     height: ${TEXT_EDITOR_HEIGHT}px;
+    color: ${theme.palette.gray2};
+    & div.ql-container {
+      height: ${TEXT_EDITOR_HEIGHT - 42}px;
+    }
+    ${readOnly &&
+    css`
+      height: fit-content;
+      background-color: transparent;
+      & div.ql-toolbar {
+        display: none;
+      }
+      & div.ql-container {
+        border: none;
+        height: fit-content;
+      }
+    `}
   `}
 `;
 

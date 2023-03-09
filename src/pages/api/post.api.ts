@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
 import { db } from "@/config/firebase-config";
 
 export const getPostList = async () => {
@@ -23,9 +23,32 @@ export const getPostList = async () => {
   }
 };
 
+export const getPostDetail = async (postId: string) => {
+  try {
+    const docData = await getDoc(doc(db, "post", postId));
+
+    const { githubURL, stackList, description, treeList, writer } =
+      docData.data() as Post;
+    const postDetail = {
+      id: docData.id,
+      githubURL,
+      description,
+      stackList,
+      treeList: JSON.parse(treeList as unknown as string),
+      writer: writer,
+    };
+    return postDetail as unknown as Post;
+  } catch (e) {
+    console.error("fail to get post list : ", e);
+  }
+};
+
 export const createPost = async (newPost: CreatePost) => {
   try {
-    const docRef = await addDoc(collection(db, "post"), newPost);
+    const treeListStr = JSON.stringify(newPost.treeList);
+    const changeFormFormat = { ...newPost, treeList: treeListStr };
+
+    const docRef = await addDoc(collection(db, "post"), changeFormFormat);
   } catch (e) {
     console.error("fail to create post : ", e);
   }

@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { useRouter } from "next/router";
 import { Inter } from "@next/font/google";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
@@ -10,8 +11,12 @@ import PostCard from "@/component/Home/PostCard";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
   const { data, isLoading } = useQuery(["post", "list"], getPostList);
 
+  const onNavigateToDetail = (id: string) => {
+    router.push(`/post/${id}`);
+  };
   if (isLoading) {
     return <div>loading...</div>;
   }
@@ -35,7 +40,7 @@ export default function Home() {
             <PostCard
               key={`card-${index}`}
               post={post}
-              onClick={() => undefined}
+              onClick={onNavigateToDetail}
             />
           ))}
         </PostList>

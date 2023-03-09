@@ -3,7 +3,7 @@ import Image from "next/image";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 type Props = {
-  src: string;
+  src?: string;
   size?: number;
   rounded?: boolean;
 };
@@ -16,7 +16,7 @@ export default function Avatar({ src, size = 40, rounded = true }: Props) {
         width={size}
         height={size}
         loader={() => src ?? "default image"}
-        src={"default image"}
+        src={src ?? "default image"}
         alt={src ?? "default image"}
       />
     </UserImage>

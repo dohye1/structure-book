@@ -336,7 +336,7 @@ nextjs와 함께쓰면 zustand의 데이터를 사용해 hydration작업을 또 
 </details>
 
 <details>
-<summary>2023.03.07</summary>
+<summary>2023.03.08</summary>
 <div markdown="1">
 
 firebase > firestore database 사용해보기
@@ -348,6 +348,20 @@ firebase > firestore database 사용해보기
 음 글고 홈의 list의 페이징방식과, 맨 처음값들을 ssr로 처리할지 고민중
 
 <img width="600" alt="github file data" src="https://user-images.githubusercontent.com/64346737/223882045-758e7b1a-43af-4dd5-b203-23cf4096e68e.png">
+
+</div>
+</details>
+
+<details>
+<summary>2023.03.09</summary>
+<div markdown="1">
+디테일 페이지를 만들어봤다.
+
+와 근데 생각보다 디자인없이 작업하니깐 상당히 귀찮음ㅠㅜ
+
+그래서 지금 중복된 코드도많고, 시각적으로 수정해야할곳도 많지만, 기능적으로 개선하는게 우선임!
+
+그리고 지금 SSR과 관련된 작업은 아무것도 안했음....
 
 </div>
 </details>

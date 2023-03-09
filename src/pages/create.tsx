@@ -36,14 +36,13 @@ export default function Create() {
     e.preventDefault();
     if (treeListRef.current?.getTreeList()) {
       const descriptionStr = description as string;
-      const treeListStr = JSON.stringify(treeListRef.current?.getTreeList());
-
+      const treeList = treeListRef.current.getTreeList();
       if (user) {
         mutate({
           writer: user,
           stackList,
           description: descriptionStr,
-          treeList: treeListStr,
+          treeList,
           githubURL,
         });
       }
@@ -51,51 +50,46 @@ export default function Create() {
   };
 
   return (
-    <>
-      <Container>
-        <Form>
-          <Title>Share your project structure</Title>
-          <Item>
-            <Label required>Stack</Label>
-            <Select
-              options={MOCK_OPTION}
-              value={stackList}
-              onChange={(values) => setStackList([...values])}
-              id="select-project-stack"
-              instanceId="select-project-stack"
-              isMulti
-            />
-          </Item>
-          <Item>
-            <Label>Description</Label>
-            <TextEditor value={description} onChange={setDescription} />
-          </Item>
-          <Item>
-            <Label required>Tree</Label>
-            <TreeInput
-              onChangeGithubURL={onChangeGithubURL}
-              ref={treeListRef}
-            />
-          </Item>
-          <Item>
-            <Label>Github URL</Label>
-            <Input
-              value={githubURL}
-              onChange={(e) => onChangeGithubURL(e.target.value)}
-              placeholder="ex) https://github.com/owner/repository"
-            />
-          </Item>
-          <ButtonWrapper>
-            <Button isFilled={false} variant="secondary">
-              Save
-            </Button>
-            <Button variant="secondary" onClick={onSubmit}>
-              Create
-            </Button>
-          </ButtonWrapper>
-        </Form>
-      </Container>
-    </>
+    <Container>
+      <Form>
+        <Title>Share your project structure</Title>
+        <Item>
+          <Label required>Stack</Label>
+          <Select
+            options={MOCK_OPTION}
+            value={stackList}
+            onChange={(values) => setStackList([...values])}
+            id="select-project-stack"
+            instanceId="select-project-stack"
+            isMulti
+          />
+        </Item>
+        <Item>
+          <Label>Description</Label>
+          <TextEditor value={description} onChange={setDescription} />
+        </Item>
+        <Item>
+          <Label required>Tree</Label>
+          <TreeInput onChangeGithubURL={onChangeGithubURL} ref={treeListRef} />
+        </Item>
+        <Item>
+          <Label>Github URL</Label>
+          <Input
+            value={githubURL}
+            onChange={(e) => onChangeGithubURL(e.target.value)}
+            placeholder="ex) https://github.com/owner/repository"
+          />
+        </Item>
+        <ButtonWrapper>
+          <Button isFilled={false} variant="secondary">
+            Save
+          </Button>
+          <Button variant="secondary" onClick={onSubmit}>
+            Create
+          </Button>
+        </ButtonWrapper>
+      </Form>
+    </Container>
   );
 }
 

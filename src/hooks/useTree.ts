@@ -1,4 +1,4 @@
-import { normalizeTreeData } from "@/utils/tree.util";
+import { normalizeTreeData, updateTreeItemInfo } from "@/utils/tree.util";
 import { cloneDeep } from "lodash";
 import { v4 as uuid } from "uuid";
 import { useState, useEffect, useRef } from "react";
@@ -33,6 +33,7 @@ export default function useTree({ onChangeGithubURL }: Props) {
       },
     };
   });
+
   const [normalizedList, setNormalizedList] = useState<TreeItem[]>(
     normalizeTreeData(treeList)
   );
@@ -59,7 +60,10 @@ export default function useTree({ onChangeGithubURL }: Props) {
   // row selection과 toggle이 동시에 발생함
   const onClickRow = (item: TreeItem) => {
     if (item.type === "FOLDER") {
-      updateTreeItemInfo(item, { isOpen: !item.isOpen });
+      const updatedList = updateTreeItemInfo(treeList, item, {
+        isOpen: !item.isOpen,
+      });
+      setTreeList(updatedList);
     }
     setSelectedRow(item);
   };
@@ -102,7 +106,11 @@ export default function useTree({ onChangeGithubURL }: Props) {
 
   const onSave = (treeItem: TreeItem, name?: string) => {
     if (name) {
-      updateTreeItemInfo(treeItem, { name, isTemporary: false });
+      const updatedList = updateTreeItemInfo(treeList, treeItem, {
+        name,
+        isTemporary: false,
+      });
+      setTreeList(updatedList);
     } else {
       putTempItem(false, treeItem);
     }
@@ -137,23 +145,6 @@ export default function useTree({ onChangeGithubURL }: Props) {
     putTempItem(true, newItem);
   };
 
-  // treeItem하나의 정보를 변경하지만, treeList 자체를 업데이트해야함
-  const updateTreeItemInfo = (
-    treeItem: TreeItem,
-    editedInfo: Partial<TreeItem>
-  ) => {
-    const originalTreeList = cloneDeep(treeList);
-    let treeRef = originalTreeList;
-    for (let i = 0; i < treeItem.parentList.length; i++) {
-      const parentId = treeItem.parentList[i];
-      treeRef[parentId] = { children: {}, ...treeRef[parentId] };
-      treeRef = treeRef[parentId].children!;
-    }
-
-    treeRef[treeItem.id].item = { ...treeItem, ...editedInfo };
-
-    setTreeList(originalTreeList);
-  };
   // =======TreeItemList Action=======
 
   //=======Modal Action=======
