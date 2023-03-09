@@ -1,15 +1,25 @@
-import Head from "next/head";
-import Image from "next/image";
+import { useQuery } from "react-query";
 import { Inter } from "@next/font/google";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import SVG from "@/component/SVG";
 import Filter from "@/component/Home/Filter";
-import CardList from "@/component/Home/CardList";
+import { getPostList } from "./api/post.api";
+import PostCard from "@/component/Home/PostCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const { data, isLoading } = useQuery(["post", "list"], getPostList);
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+
+  if (!data) {
+    return <div>empty</div>;
+  }
+
   return (
     <Container>
       <SearchSection>
@@ -20,7 +30,15 @@ export default function Home() {
       </SearchSection>
       <MainSection>
         <Filter />
-        <CardList />
+        <PostList>
+          {data.map((post, index) => (
+            <PostCard
+              key={`card-${index}`}
+              post={post}
+              onClick={() => undefined}
+            />
+          ))}
+        </PostList>
       </MainSection>
     </Container>
   );
@@ -73,5 +91,14 @@ const MainSection = styled.div`
     padding: 20px 40px;
     column-gap: 30px;
     justify-content: space-between;
+  `}
+`;
+
+const PostList = styled.div`
+  ${({ theme }) => css`
+    flex: 8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
   `}
 `;

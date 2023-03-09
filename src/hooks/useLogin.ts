@@ -13,13 +13,12 @@ export default function useLogin() {
     try {
       const result = await signInWithPopup(getAuth(firebase), provider);
       if (result) {
-        const { uid, refreshToken, displayName, email, photoURL } = result.user;
+        const { uid, displayName, email, photoURL } = result.user;
         if (!email) {
           throw new Error("email is necessary field");
         }
         const newUser: User = {
           id: uid,
-          token: refreshToken,
           displayName,
           email,
           photoURL,

@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 import { useRouter } from "next/router";
 import userStore from "@/store/userStore";
 import useLogin from "@/hooks/useLogin";
+import Avatar from "./Avatar";
 
 function Header() {
   const router = useRouter();
@@ -41,18 +42,7 @@ function Header() {
           </Button>
         )}
 
-        {/* TODO: empty image 제대로 설정해줘야함 */}
-        {!!user && (
-          <UserImage>
-            <Image
-              width={40}
-              height={40}
-              loader={() => user.photoURL ?? "default image"}
-              src={"default image"}
-              alt={user.displayName ?? "default image"}
-            />
-          </UserImage>
-        )}
+        {!!user?.photoURL && <Avatar src={user.photoURL} />}
       </RightSection>
     </Container>
   );
@@ -89,15 +79,5 @@ const RightSection = styled.div`
   ${({ theme }) => css`
     display: flex;
     column-gap: 16px;
-  `}
-`;
-
-const UserImage = styled.div`
-  ${({ theme }) => css`
-    width: 40px;
-    height: 40px;
-    background-color: ${theme.palette.beige2};
-    border-radius: 50%;
-    overflow: hidden;
   `}
 `;

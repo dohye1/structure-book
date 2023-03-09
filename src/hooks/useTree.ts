@@ -13,7 +13,7 @@ type Props = {
   onChangeGithubURL: (githubURL: string) => void;
 };
 
-export default function useCreate({ onChangeGithubURL }: Props) {
+export default function useTree({ onChangeGithubURL }: Props) {
   const [showGithubModal, setShowGithubModal] = useState(false);
   const [isLoadingGithubTree, setIsLoadingGithubTree] = useState(false);
   const [selectedRow, setSelectedRow] = useState<TreeItem>();

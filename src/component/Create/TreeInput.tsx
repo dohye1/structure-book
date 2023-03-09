@@ -7,7 +7,7 @@ import GithubModal from "@/component/Create/GithubModal";
 import SVG from "../SVG";
 import TreeItem from "./TreeItem";
 import TreeTempItem from "./TreeTempItem";
-import useCreate from "@/hooks/useCreate";
+import useTree from "@/hooks/useTree";
 
 type Props = {
   onChangeGithubURL: (githubURL: string) => void;
@@ -31,7 +31,7 @@ const TreeInput = forwardRef<
     onCloseModal,
     onSave,
     onBlur,
-  } = useCreate(props);
+  } = useTree(props);
 
   useImperativeHandle(ref, () => ({
     getTreeList: () => treeList,

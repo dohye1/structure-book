@@ -332,16 +332,20 @@ nextjs와 함께쓰면 zustand의 데이터를 사용해 hydration작업을 또 
 일단 돌아가게만드는게 목표라 데이터 생성하는거 먼저 하고난 뒤에 이 작업을 할거다.
 투두가 점점 늘어나니 기록을해놔야겠음!!
 
----
+</div>
+</details>
 
-firebase에 데이터를 저장할거라 사용방법을 좀 읽어봤는데,
-우선 데이터는 JSON 트리구조로 저장이된다고 한다.
+<details>
+<summary>2023.03.07</summary>
+<div markdown="1">
 
-그리고 권장사항을 보면 데이터의 중첩을 피하라고 되어있다.
+firebase > firestore database 사용해보기
 
-firebase에서 권장하는 데이터 구조를 참고하면서 db설계를 해보겠다...!!!!
+오! 데이터를 생성하고, 받아오는것까지는 했다.
 
-일단 손으로 그려보는거야~~
+내일은 suspense와 error boundary를 설정해보자!!
+
+음 글고 홈의 list의 페이징방식과, 맨 처음값들을 ssr로 처리할지 고민중
 
 </div>
 </details>

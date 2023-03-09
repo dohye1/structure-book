@@ -6,6 +6,9 @@ import TreeInput from "@/component/Create/TreeInput";
 import { FormEvent, useRef, useState } from "react";
 import TextEditor from "@/component/TextEditor";
 import { Value } from "react-quill";
+import { useMutation } from "react-query";
+import { createPost } from "./api/post.api";
+import userStore from "@/store/userStore";
 
 const MOCK_OPTION = [
   { label: "React", value: 1 },
@@ -14,6 +17,9 @@ const MOCK_OPTION = [
 ];
 
 export default function Create() {
+  const { mutate } = useMutation(["post", "create"], createPost);
+  const user = userStore((state) => state.user);
+
   // TODO: hook으로 넣기
   const [stackList, setStackList] = useState<Option<number>[]>(
     MOCK_OPTION.slice(0, 1)
@@ -28,10 +34,20 @@ export default function Create() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log("stackList", stackList);
-    console.log("description", description);
-    console.log("treeList", treeListRef.current?.getTreeList());
-    console.log("githubURL", githubURL);
+    if (treeListRef.current?.getTreeList()) {
+      const descriptionStr = description as string;
+      const treeListStr = JSON.stringify(treeListRef.current?.getTreeList());
+
+      if (user) {
+        mutate({
+          writer: user,
+          stackList,
+          description: descriptionStr,
+          treeList: treeListStr,
+          githubURL,
+        });
+      }
+    }
   };
 
   return (
