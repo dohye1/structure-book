@@ -347,5 +347,7 @@ firebase > firestore database 사용해보기
 
 음 글고 홈의 list의 페이징방식과, 맨 처음값들을 ssr로 처리할지 고민중
 
+<img width="600" alt="github file data" src="https://user-images.githubusercontent.com/64346737/223882045-758e7b1a-43af-4dd5-b203-23cf4096e68e.png">
+
 </div>
 </details>
