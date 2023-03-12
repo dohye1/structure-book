@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import userStore from "@/store/userStore";
 import useLogin from "@/hooks/useLogin";
 import Avatar from "./Avatar";
+import SVG from "./SVG";
 
 function Header() {
   const router = useRouter();
@@ -29,7 +30,10 @@ function Header() {
 
   return (
     <Container>
-      <Logo onClick={onNavigateToHome}>STRUCTURE BOOK</Logo>
+      <Logo onClick={onNavigateToHome}>
+        <SVG name="logo" />
+        STRUCTURE BOOK
+      </Logo>
       <RightSection>
         {!user && (
           <Button onClick={onLogin} size={"small"}>
@@ -70,6 +74,7 @@ const Logo = styled.div`
     justify-content: center;
     font-size: 24px;
     font-weight: 700;
+    column-gap: 8px;
     color: ${theme.palette.beige6};
     cursor: pointer;
   `}

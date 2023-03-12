@@ -17,7 +17,8 @@ type SVGName =
   | "heartFilled"
   | "logout"
   | "comment"
-  | "eye";
+  | "eye"
+  | "logo";
 
 type Props = {
   name: SVGName;
@@ -30,6 +31,42 @@ function SVG({ name, fill, width: customWidth, height: customHeight }: Props) {
   const { viewBoxHeight, viewBoxWidth, width, height, elements } =
     useMemo(() => {
       switch (name) {
+        case "logo":
+          return {
+            viewBoxWidth: 48,
+            viewBoxHeight: 48,
+            width: customWidth ?? 48,
+            height: customHeight ?? 48,
+            elements: [
+              <path
+                d="M35.7194 14L43.2196 23.3753C43.5118 23.7405 43.5118 24.2595 43.2196 24.6247L35.7194 34M11.7194 14L4.21913 23.3753C3.92696 23.7405 3.92696 24.2595 4.21913 24.6247L11.7194 34"
+                stroke="#F3EDDF"
+                fill="transparent"
+                stroke-width="4"
+                stroke-linecap="round"
+              />,
+              <path
+                d="M25.9387 8.47752C26.0206 8.21379 26.3008 8.06636 26.5645 8.14823L30.3847 9.33404C30.6484 9.41591 30.7958 9.69606 30.714 9.95979L21.0163 41.2015C20.9345 41.4652 20.6543 41.6126 20.3906 41.5308L16.5704 40.3449C16.3067 40.2631 16.1592 39.9829 16.2411 39.7192L25.9387 8.47752Z"
+                fill="#F3EDDF"
+              />,
+              <rect
+                x="24.9012"
+                y="11.8202"
+                width="5"
+                height="4"
+                transform="rotate(17.2447 24.9012 11.8202)"
+                fill="#5D584C"
+              />,
+              <rect
+                x="22.5295"
+                y="19.4606"
+                width="5"
+                height="18"
+                transform="rotate(17.2447 22.5295 19.4606)"
+                fill="#5D584C"
+              />,
+            ],
+          };
         case "eye":
           return {
             viewBoxWidth: 24,
