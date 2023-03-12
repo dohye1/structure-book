@@ -376,11 +376,15 @@ firebase > firestore database 사용해보기
 근데 포인트색상 정하기가 왤케 어려운지ㅠㅜㅠㅜㅜ
 
 그래서 일단은 로고를 만들어봤다!
+
+로고 생성 사이트에서 참고했는데,
 로고 키워드는 folder, file, structure 이런걸로 찾아보니깐 너무 각진느낌의 디자인만 나와서
 
 code라는 키워드를 중심으로 찾아봤다. 그러던 중 딱 마음에드는 로고가 있어서 피그마로 따라 만들어봤다.
 
 code라는 느낌도주고, 책이라는 느낌도 줄수있는 디자인이라고 생각해서 만들어봄(내눈에만 예쁘면됨..ㅎ..ㅎ..ㅎ.ㅎ)
+
+<img width="840" alt="Screen Shot 2023-03-12 at 8 20 49 PM" src="https://user-images.githubusercontent.com/64346737/224541288-60be9164-3692-4b83-85e7-36da9ccf2ad3.png">
 
 </div>
 </details>
