@@ -1,10 +1,12 @@
 export {};
 
 declare global {
+  type Stack = Option<string>;
+
   type Post = {
     id: string;
     writer: User;
-    stackList: Option<number>[];
+    stackList: Stack[];
     treeList: TreeList;
     description?: string;
     githubURL?: string;

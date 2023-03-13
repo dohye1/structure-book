@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import Select from "react-select";
+import { MultiValue } from "react-select";
 import { useRouter } from "next/router";
 import Button from "@/component/Button";
 import TreeInput from "@/component/Create/TreeInput";
@@ -10,11 +10,12 @@ import { Value } from "react-quill";
 import { useMutation } from "react-query";
 import { createPost } from "./api/post.api";
 import userStore from "@/store/userStore";
+import StackSelect from "@/component/StackSelect";
 
 const MOCK_OPTION = [
-  { label: "React", value: 1 },
-  { label: "Svelte", value: 2 },
-  { label: "Vue", value: 3 },
+  { label: "React", value: "React" },
+  { label: "Svelte", value: "Svelte" },
+  { label: "Vue", value: "Vue" },
 ];
 
 export default function Create() {
@@ -29,7 +30,7 @@ export default function Create() {
   const user = userStore((state) => state.user);
 
   // TODO: hook으로 넣기
-  const [stackList, setStackList] = useState<Option<number>[]>(
+  const [stackList, setStackList] = useState<MultiValue<Stack>>(
     MOCK_OPTION.slice(0, 1)
   );
   const [githubURL, setGithubURL] = useState("");
@@ -48,7 +49,7 @@ export default function Create() {
       if (user) {
         mutate({
           writer: user,
-          stackList,
+          stackList: stackList as Stack[],
           description: descriptionStr,
           treeList,
           githubURL,
@@ -63,14 +64,7 @@ export default function Create() {
         <Title>Share your project structure</Title>
         <Item>
           <Label required>Stack</Label>
-          <Select
-            options={MOCK_OPTION}
-            value={stackList}
-            onChange={(values) => setStackList([...values])}
-            id="select-project-stack"
-            instanceId="select-project-stack"
-            isMulti
-          />
+          <StackSelect value={stackList} onChange={setStackList} />
         </Item>
         <Item>
           <Label>Description</Label>
