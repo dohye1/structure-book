@@ -61,8 +61,8 @@ const Input = styled.input`
     border-radius: 4px;
     border: 1px solid ${theme.palette.gray7};
     &:focus {
-      border: 1px solid ${theme.palette.green3};
-      outline: 2px solid ${theme.palette.green4};
+      border: 1px solid ${theme.palette.orange4};
+      outline: 2px solid ${theme.palette.orange5};
     }
   `}
 `;

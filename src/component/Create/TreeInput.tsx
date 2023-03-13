@@ -51,7 +51,7 @@ const TreeInput = forwardRef<
           type="button"
           size="small"
         >
-          <SVG name="github" fill="#77bc88" />
+          <SVG name="github" fill="#e5a766" />
           Retrieve from github
         </Button>
       </ButtonWrapper>

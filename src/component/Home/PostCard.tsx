@@ -68,7 +68,7 @@ const StackList = styled.div`
 
 const Stack = styled.div`
   ${({ theme }) => css`
-    background-color: ${theme.palette.green3};
+    background-color: ${theme.palette.orange5};
     padding: 6px 8px;
     border-radius: 6px;
     font-size: 12px;

@@ -35,6 +35,13 @@ const palette = {
   red5: "#f55a4e",
   red6: "#f77066",
   red7: "#f8877f",
+  orange1: "#db8225",
+  orange2: "#de8e3a",
+  orange3: "#e29b50",
+  orange4: "#e5a766",
+  orange5: "#e9b47c",
+  orange6: "#f0cda7",
+  orange7: "#f7e6d3",
 } as const;
 
 const spacing = {};

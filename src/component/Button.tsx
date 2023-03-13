@@ -51,27 +51,27 @@ const Container = styled.button<{
     css`
       ${isFilled
         ? css`
-            background-color: ${theme.palette.green2};
+            background-color: ${theme.palette.orange3};
             color: ${theme.palette.white};
             &:hover {
-              background-color: ${theme.palette.green1};
+              background-color: ${theme.palette.orange2};
             }
             &:disabled {
-              background-color: ${theme.palette.green7};
+              background-color: ${theme.palette.orange7};
               cursor: default;
             }
           `
         : css`
             background-color: ${theme.palette.white};
-            color: ${theme.palette.green2};
-            border: 1px solid ${theme.palette.green2};
+            color: ${theme.palette.orange3};
+            border: 1px solid ${theme.palette.orange3};
             &:hover {
-              color: ${theme.palette.green1};
-              border: 1px solid ${theme.palette.green1};
+              color: ${theme.palette.orange2};
+              border: 1px solid ${theme.palette.orange2};
             }
             &:disabled {
-              color: ${theme.palette.green7};
-              border: 1px solid ${theme.palette.green7};
+              color: ${theme.palette.orange7};
+              border: 1px solid ${theme.palette.orange7};
               cursor: default;
             }
           `}
