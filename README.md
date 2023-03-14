@@ -411,3 +411,16 @@ code라는 느낌도주고, 책이라는 느낌도 줄수있는 디자인이라�
 
 </div>
 </details>
+
+
+<details>
+<summary>2023.03.14</summary>
+<div markdown="1">
+Stack데이터는 어제 고민했던대로 form 생성요청을 보내게되면, 새로 추가된 stack값들은 db에 추가를 한 뒤 form 정보를 저장하는방식으로 구현했다.
+
+군뎅....나 내일은 진짜 에러처리 해야함ㅎ
+
+그만미루라고~
+
+</div>
+</details>
