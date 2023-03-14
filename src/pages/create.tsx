@@ -11,12 +11,7 @@ import { useMutation } from "react-query";
 import { createPost } from "./api/post.api";
 import userStore from "@/store/userStore";
 import StackSelect from "@/component/StackSelect";
-
-const MOCK_OPTION = [
-  { label: "React", value: "React" },
-  { label: "Svelte", value: "Svelte" },
-  { label: "Vue", value: "Vue" },
-];
+import { createStacks } from "./api/stack.api";
 
 export default function Create() {
   const router = useRouter();
@@ -30,9 +25,7 @@ export default function Create() {
   const user = userStore((state) => state.user);
 
   // TODO: hook으로 넣기
-  const [stackList, setStackList] = useState<MultiValue<Stack>>(
-    MOCK_OPTION.slice(0, 1)
-  );
+  const [stackList, setStackList] = useState<MultiValue<Stack>>([]);
   const [githubURL, setGithubURL] = useState("");
   const [description, setDescription] = useState<Value>("");
   const onChangeGithubURL = (myGithubURL: string) => {
@@ -41,20 +34,27 @@ export default function Create() {
 
   const treeListRef = useRef<{ getTreeList: () => TreeList }>();
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (treeListRef.current?.getTreeList()) {
-      const descriptionStr = description as string;
-      const treeList = treeListRef.current.getTreeList();
-      if (user) {
-        mutate({
-          writer: user,
-          stackList: stackList as Stack[],
-          description: descriptionStr,
-          treeList,
-          githubURL,
-        });
+
+    try {
+      if (treeListRef.current?.getTreeList()) {
+        await createStacks(stackList as Stack[]);
+        const descriptionStr = description as string;
+        const treeList = treeListRef.current.getTreeList();
+        if (user) {
+          mutate({
+            writer: user,
+            stackList: stackList as Stack[],
+            description: descriptionStr,
+            treeList,
+            githubURL,
+          });
+        }
       }
+    } catch (error) {
+      // FIXME: ERROR 처리 꼭 필요
+      console.log();
     }
   };
 

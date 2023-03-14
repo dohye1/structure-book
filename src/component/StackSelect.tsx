@@ -6,6 +6,7 @@ import {
 import Creatable, { CreatableProps } from "react-select/creatable";
 import { GroupBase, MultiValue, OptionsOrGroups } from "react-select";
 import { ReactElement } from "react";
+import { getStackList } from "@/pages/api/stack.api";
 
 type SelectAdditional = {
   page: number;
@@ -47,24 +48,20 @@ const getOptionsAsync = (page: number): Promise<Stack[]> => {
   });
 };
 
+const OPTION_COUNT = 10;
+const getStackListWithCount = getStackList(OPTION_COUNT);
+
 export default function StackSelect({ value, onChange }: Props) {
   const loadOptions = async (
     search: string,
     loadedOptions: OptionsOrGroups<Stack, GroupBase<Stack>>,
     additional: SelectAdditional = { page: 0 }
   ) => {
-    const OPTION = await getOptionsAsync(additional.page);
-
-    if (search === "Test") {
-      return {
-        options: [],
-        hasMore: false,
-      };
-    }
+    const OPTION = (await getStackListWithCount(additional.page, search)) ?? [];
 
     return {
       options: OPTION,
-      hasMore: true,
+      hasMore: OPTION_COUNT === OPTION.length,
       additional: {
         ...additional,
         page: (additional?.page ?? 0) + 1,
