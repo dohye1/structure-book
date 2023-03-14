@@ -1,36 +1,51 @@
-import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  startAt,
+  doc,
+  limit,
+  writeBatch,
+  where,
+  PartialWithFieldValue,
+} from "firebase/firestore";
 import { db } from "@/config/firebase-config";
 
-export const getStackList = async () => {
+export const getStackList =
+  (pageSize: number = 10) =>
+  async (page: number = 0, search?: string) => {
+    try {
+      const q = query(
+        collection(db, "stack"),
+        orderBy("value"),
+        where("value", ">=", search),
+        where("value", "<=", search + "\uf8ff"),
+        startAt(page * pageSize),
+        limit(pageSize)
+      );
+      const querySnapshot = await getDocs(q);
+      const stackList: Stack[] = [];
+      querySnapshot.forEach((stack) => stackList.push(stack.data() as Stack));
+      return stackList;
+    } catch (e) {
+      console.error("fail to get post list : ", e);
+    }
+  };
+
+export const createStacks = async (newStacks: Stack[]) => {
   try {
-    const postList: Post[] = [];
-    const querySnapshot = await getDocs(collection(db, "post"));
-    querySnapshot.forEach((doc) => {
-      const docData = doc.data();
-      const post = {
-        id: doc.id,
-        githubURL: docData.githubURL,
-        description: docData.description,
-        stackList: docData.stackList,
-        treeList: JSON.parse(docData.treeList),
-        writer: docData.writer,
-      };
-      postList.push(post);
+    // Get a new write batch
+    const batch = writeBatch(db);
+
+    newStacks.forEach(async (stack) => {
+      await batch.set(doc(db, "stack", stack.value), stack, {
+        merge: true,
+      });
     });
-    return postList;
-  } catch (e) {
-    console.error("fail to get post list : ", e);
-  }
-};
 
-export const createPost = async (newPost: CreatePost) => {
-  try {
-    const treeListStr = JSON.stringify(newPost.treeList);
-    const changeFormFormat = { ...newPost, treeList: treeListStr };
-
-    const docRef = await addDoc(collection(db, "post"), changeFormFormat);
-    return docRef.id;
+    await batch.commit();
   } catch (e) {
-    console.error("fail to create post : ", e);
+    console.error("fail to create stack : ", e);
   }
 };

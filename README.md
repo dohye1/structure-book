@@ -1,6 +1,6 @@
 # structure-book
-<img width="100" alt="LOGO" src="https://user-images.githubusercontent.com/64346737/224542549-df85efa8-072f-4d31-9e55-614228b746f8.png">
 
+<img width="100" alt="LOGO" src="https://user-images.githubusercontent.com/64346737/224542549-df85efa8-072f-4d31-9e55-614228b746f8.png">
 
 ## TODO LIST
 
@@ -411,7 +411,6 @@ code라는 느낌도주고, 책이라는 느낌도 줄수있는 디자인이라�
 
 </div>
 </details>
-
 
 <details>
 <summary>2023.03.14</summary>
