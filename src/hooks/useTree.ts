@@ -145,6 +145,13 @@ export default function useTree({ onChangeGithubURL }: Props) {
     putTempItem(true, newItem);
   };
 
+  const onChangeItemName = (item: TreeItem, editedName: string) => {
+    const updatedList = updateTreeItemInfo(treeList, item, {
+      name: editedName,
+    });
+    setTreeList(updatedList);
+  };
+
   // =======TreeItemList Action=======
 
   //=======Modal Action=======
@@ -190,6 +197,6 @@ export default function useTree({ onChangeGithubURL }: Props) {
     onCloseModal,
     putTempItem,
     onSave,
-    onBlur,
+    onChangeItemName,
   };
 }

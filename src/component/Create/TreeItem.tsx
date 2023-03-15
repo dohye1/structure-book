@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useState } from "react";
 import SVG from "../SVG";
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
   depth: number;
   onRemove?: (treeItem: TreeItem) => void;
   onClick?: (treeItem: TreeItem) => void;
+  onChangeItemName?: (treeItem: TreeItem, name: string) => void;
   isSelected?: boolean;
   readOnly?: boolean;
 };
@@ -18,8 +19,19 @@ export default function TreeItem({
   isSelected = false,
   onRemove,
   onClick,
+  onChangeItemName,
   readOnly,
 }: Props) {
+  const [editMode, setEditMode] = useState(false);
+  const [editedName, setEditedName] = useState(treeItem.name);
+
+  const onSave = () => {
+    setEditMode(false);
+    if (editMode && treeItem.name !== editedName) {
+      onChangeItemName?.(treeItem, editedName);
+    }
+  };
+
   return (
     <Container
       depth={depth}
@@ -39,20 +51,55 @@ export default function TreeItem({
           name={treeItem.type === "FOLDER" ? "folderOpen" : "file"}
           fill="#5E5E5E"
         />
-        <NameWrapper>
-          <Name>{treeItem.name}</Name>
-        </NameWrapper>
+        {editMode ? (
+          <EditInput
+            value={editedName}
+            autoFocus
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === "Escape") {
+                onSave();
+              }
+            }}
+            onBlur={() => {
+              onSave();
+            }}
+            onFocus={(e) => e.stopPropagation()}
+            onChange={(e) => setEditedName(e.target.value)}
+          />
+        ) : (
+          <>
+            <NameWrapper>
+              <Name>{treeItem.name}</Name>
+            </NameWrapper>
+            {!readOnly && (
+              <>
+                <RemoveButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEditMode(true);
+                  }}
+                >
+                  <SVG name="edit" fill="currentcolor" width={12} height={12} />
+                </RemoveButton>
+                <RemoveButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemove?.(treeItem);
+                  }}
+                >
+                  <SVG
+                    name="trash"
+                    fill="currentcolor"
+                    width={12}
+                    height={12}
+                  />
+                </RemoveButton>
+              </>
+            )}
+          </>
+        )}
       </TreeInfo>
-      {!readOnly && (
-        <RemoveButton
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemove?.(treeItem);
-          }}
-        >
-          <SVG name="trash" fill="currentcolor" width={12} height={12} />
-        </RemoveButton>
-      )}
     </Container>
   );
 }
@@ -60,6 +107,21 @@ export default function TreeItem({
 const Toggle = styled.div`
   width: 16px;
   height: 16px;
+`;
+
+const EditInput = styled.input`
+  ${({ theme }) => css`
+    display: flex;
+    flex: 1;
+    padding: 6px 12px;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid ${theme.palette.gray7};
+    &:focus {
+      border: 1px solid ${theme.palette.orange4};
+      outline: 2px solid ${theme.palette.orange5};
+    }
+  `}
 `;
 
 const RemoveButton = styled.div`
@@ -113,6 +175,7 @@ const NameWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     column-gap: 4px;
+    flex: 1;
   `}
 `;
 
