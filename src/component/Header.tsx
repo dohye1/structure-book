@@ -45,7 +45,6 @@ function Header() {
             New Structure
           </Button>
         )}
-
         {!!user?.photoURL && <Avatar src={user.photoURL} />}
       </RightSection>
     </Container>

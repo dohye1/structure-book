@@ -1,17 +1,20 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { getPostDetail } from "../api/post.api";
+import { useQuery, useMutation } from "react-query";
+import { deletePost, getPostDetail } from "../api/post.api";
 import TextEditor from "@/component/TextEditor";
 import TreeItem from "@/component/Create/TreeItem";
 import { normalizeTreeData, updateTreeItemInfo } from "@/utils/tree.util";
 import { useState } from "react";
+import userStore from "@/store/userStore";
 import Avatar from "@/component/Avatar";
+import Button from "@/component/Button";
 
 export default function Post() {
   const router = useRouter();
   const { id } = router.query as { id: string };
+  const user = userStore((state) => state.user);
   const [treeList, setTreeList] = useState<TreeList>();
 
   const { data } = useQuery(["post", "detail", id], () => getPostDetail(id), {
@@ -21,6 +24,16 @@ export default function Post() {
       }
     },
   });
+
+  const { mutate: deleteMutate } = useMutation(
+    ["post", "delete", id],
+    (postId: string) => deletePost(postId),
+    {
+      onSuccess: () => {
+        router.replace("/");
+      },
+    }
+  );
 
   const onClickRow = (item: TreeItem) => {
     if (treeList && item.type === "FOLDER") {
@@ -38,6 +51,8 @@ export default function Post() {
   const { stackList, description, githubURL, writer } = data;
   const normalizedList = normalizeTreeData(treeList);
 
+  const isMyPost = writer.id === user?.id;
+
   return (
     <Container>
       <Header>
@@ -45,6 +60,21 @@ export default function Post() {
           <Avatar src={writer.photoURL ?? undefined} />
           <Writer>{writer.displayName}</Writer>
         </UserInfo>
+        {isMyPost && (
+          <ButtonWrapper>
+            <Button variant="secondary" size="small" isFilled={false}>
+              Edit
+            </Button>
+            <Button
+              variant="secondary"
+              size="small"
+              isFilled={false}
+              onClick={() => deleteMutate(data.id)}
+            >
+              Remove
+            </Button>
+          </ButtonWrapper>
+        )}
       </Header>
       <Content>
         <Item>
@@ -120,6 +150,8 @@ const Header = styled.div`
   ${({ theme }) => css`
     width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
   `}
 `;
 
@@ -157,6 +189,13 @@ const StackList = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
+  `}
+`;
+
+const ButtonWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
     gap: 8px;
   `}
 `;
