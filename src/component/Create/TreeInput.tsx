@@ -30,7 +30,7 @@ const TreeInput = forwardRef<
     onOpenModal,
     onCloseModal,
     onSave,
-    onBlur,
+    onChangeItemName,
   } = useTree(props);
 
   useImperativeHandle(ref, () => ({
@@ -76,6 +76,7 @@ const TreeInput = forwardRef<
                   isSelected={selectedRow?.id === item.id}
                   onRemove={onRemove}
                   onClick={onClickRow}
+                  onChangeItemName={onChangeItemName}
                 />
               );
             })
