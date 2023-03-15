@@ -1,4 +1,11 @@
-import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "@/config/firebase-config";
 
 export const getPostList = async () => {
@@ -50,6 +57,14 @@ export const createPost = async (newPost: CreatePost) => {
 
     const docRef = await addDoc(collection(db, "post"), changeFormFormat);
     return docRef.id;
+  } catch (e) {
+    console.error("fail to create post : ", e);
+  }
+};
+
+export const deletePost = async (postId: string) => {
+  try {
+    await deleteDoc(doc(db, "post", postId));
   } catch (e) {
     console.error("fail to create post : ", e);
   }
