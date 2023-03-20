@@ -1,3 +1,5 @@
+import { getMedia } from "@/utils/style.util";
+
 const palette = {
   beige1: "#312D23",
   beige2: "#5D584C",
@@ -46,6 +48,14 @@ const palette = {
 
 const spacing = {};
 
-const theme = { palette, spacing };
+const sizes = {
+  mobile: 320,
+  tablet: 780,
+  desktop: 1200,
+};
+
+const media = getMedia(sizes);
+
+const theme = { palette, spacing, media };
 
 export default theme;
