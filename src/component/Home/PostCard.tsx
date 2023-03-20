@@ -41,9 +41,7 @@ export default function PostCard({ onClick, post }: Props) {
 
 const Container = styled.div`
   ${({ theme }) => css`
-    min-width: 100px;
-    max-width: 300px;
-    flex: 1;
+    margin: 1rem;
     height: fit-content;
     border-radius: 4px;
     display: flex;
@@ -54,7 +52,17 @@ const Container = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     cursor: pointer;
-    background-color: ${theme.palette.beige6};
+    background-color: ${theme.palette.gray8};
+    box-shadow: 0px 4px 16px 0px rgba(107, 105, 105, 0.2);
+    ${theme.media.desktop`
+      width:calc(33.3% - 2rem);
+    `}
+    ${theme.media.tablet`
+      width: calc(50% - 2rem);
+    `}
+    ${theme.media.mobile`
+      width: 100%;
+    `}
   `}
 `;
 
