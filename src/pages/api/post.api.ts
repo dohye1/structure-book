@@ -16,6 +16,7 @@ export const getPostList = async () => {
       const docData = doc.data();
       const post = {
         id: doc.id,
+        title: docData.title,
         githubURL: docData.githubURL,
         description: docData.description,
         stackList: docData.stackList,
@@ -34,10 +35,11 @@ export const getPostDetail = async (postId: string) => {
   try {
     const docData = await getDoc(doc(db, "post", postId));
 
-    const { githubURL, stackList, description, treeList, writer } =
+    const { githubURL, stackList, description, treeList, writer, title } =
       docData.data() as Post;
     const postDetail = {
       id: docData.id,
+      title,
       githubURL,
       description,
       stackList,

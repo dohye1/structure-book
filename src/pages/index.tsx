@@ -1,29 +1,21 @@
-import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { Inter } from "@next/font/google";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import SVG from "@/component/SVG";
-import Filter from "@/component/Home/Filter";
 import { getPostList } from "./api/post.api";
 import PostCard from "@/component/Home/PostCard";
+import { GetServerSideProps } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
+type Props = {
+  postList: Post[];
+};
 
-export default function Home() {
+export default function Home({ postList }: Props) {
   const router = useRouter();
-  const { data, isLoading } = useQuery(["post", "list"], getPostList);
 
   const onNavigateToDetail = (id: string) => {
     router.push(`/post/${id}`);
   };
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-
-  if (!data) {
-    return <div>empty</div>;
-  }
 
   return (
     <Container>
@@ -34,9 +26,8 @@ export default function Home() {
         </InputWrapper>
       </SearchSection>
       <MainSection>
-        <Filter />
         <PostList>
-          {data.map((post, index) => (
+          {postList.map((post, index) => (
             <PostCard
               key={`card-${index}`}
               post={post}
@@ -49,10 +40,28 @@ export default function Home() {
   );
 }
 
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const postList = await getPostList();
+
+  return {
+    props: { postList: postList ?? [] },
+  };
+};
+
 const Container = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+    ${theme.media.desktop`
+      width:1000px;
+    `}
+    ${theme.media.tablet`
+      width:800px;
+    `}
+    ${theme.media.mobile`
+      width: 100%;
+    `}
   `}
 `;
 
@@ -91,19 +100,16 @@ const Input = styled.input`
 
 const MainSection = styled.div`
   ${({ theme }) => css`
-    background-color: ${theme.palette.beige2};
     display: flex;
-    padding: 20px 40px;
-    column-gap: 30px;
-    justify-content: space-between;
+    justify-content: center;
   `}
 `;
 
 const PostList = styled.div`
   ${({ theme }) => css`
-    flex: 8;
     display: flex;
+    width: 100%;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 16px;
   `}
 `;

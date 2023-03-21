@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function PostCard({ onClick, post }: Props) {
-  const { githubURL, description, stackList, writer } = post;
+  const { stackList, writer, title } = post;
   return (
     <Container onClick={() => onClick(post.id)}>
       <TopSection>
@@ -30,6 +30,7 @@ export default function PostCard({ onClick, post }: Props) {
           </Icon>
         </IconWrapper>
       </TopSection>
+      <Title>{title}</Title>
       <StackList>
         {stackList.map((stack) => (
           <Stack key={stack.value}>{stack.label}</Stack>
@@ -41,9 +42,7 @@ export default function PostCard({ onClick, post }: Props) {
 
 const Container = styled.div`
   ${({ theme }) => css`
-    min-width: 100px;
-    max-width: 300px;
-    flex: 1;
+    margin: 1rem;
     height: fit-content;
     border-radius: 4px;
     display: flex;
@@ -54,7 +53,17 @@ const Container = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     cursor: pointer;
-    background-color: ${theme.palette.beige6};
+    background-color: ${theme.palette.gray8};
+    box-shadow: 0px 4px 16px 0px rgba(107, 105, 105, 0.2);
+    ${theme.media.desktop`
+      width:calc(33.3% - 2rem);
+    `}
+    ${theme.media.tablet`
+      width: calc(50% - 2rem);
+    `}
+    ${theme.media.mobile`
+      width: 100%;
+    `}
   `}
 `;
 
@@ -85,6 +94,21 @@ const Writer = styled.p`
   `}
 `;
 
+const Title = styled.p`
+  ${({ theme }) => css`
+    height: 60px;
+    font-size: 16px;
+    font-weight: 500;
+    color: ${theme.palette.gray2};
+    white-space: normal;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  `}
+`;
 const UserInfo = styled.div`
   ${({ theme }) => css`
     display: flex;
