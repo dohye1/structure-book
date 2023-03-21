@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useRouter } from "next/router";
-import { useQuery, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { deletePost, getPostDetail } from "../api/post.api";
 import TextEditor from "@/component/TextEditor";
 import TreeItem from "@/component/Create/TreeItem";
@@ -10,23 +10,19 @@ import { useState } from "react";
 import userStore from "@/store/userStore";
 import Avatar from "@/component/Avatar";
 import Button from "@/component/Button";
+import { GetServerSideProps, Redirect } from "next";
 
-export default function Post() {
+type Props = {
+  postDetail: Post;
+};
+
+export default function Post({ postDetail }: Props) {
   const router = useRouter();
-  const { id } = router.query as { id: string };
   const user = userStore((state) => state.user);
-  const [treeList, setTreeList] = useState<TreeList>();
-
-  const { data } = useQuery(["post", "detail", id], () => getPostDetail(id), {
-    onSuccess: (data) => {
-      if (data) {
-        setTreeList(data.treeList);
-      }
-    },
-  });
+  const [treeList, setTreeList] = useState<TreeList>(postDetail.treeList);
 
   const { mutate: deleteMutate } = useMutation(
-    ["post", "delete", id],
+    ["post", "delete", postDetail.id],
     (postId: string) => deletePost(postId),
     {
       onSuccess: () => {
@@ -44,11 +40,7 @@ export default function Post() {
     }
   };
 
-  if (!data) {
-    return <div>???</div>;
-  }
-
-  const { stackList, description, githubURL, writer, title } = data;
+  const { stackList, description, githubURL, writer, title } = postDetail;
   const normalizedList = normalizeTreeData(treeList);
 
   const isMyPost = writer.id === user?.id;
@@ -69,7 +61,7 @@ export default function Post() {
               variant="secondary"
               size="small"
               isFilled={false}
-              onClick={() => deleteMutate(data.id)}
+              onClick={() => deleteMutate(postDetail.id)}
             >
               Remove
             </Button>
@@ -118,6 +110,25 @@ export default function Post() {
     </Container>
   );
 }
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const { id } = context.query as { id: string };
+  const postDetail = await getPostDetail(id);
+
+  if (!postDetail) {
+    return {
+      redirect: {
+        statusCode: 301,
+        destination: "/",
+      },
+    };
+  }
+
+  return {
+    props: { postDetail },
+  };
+};
 
 const Container = styled.div`
   ${({ theme }) => css`
