@@ -1,28 +1,21 @@
-import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { Inter } from "@next/font/google";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import SVG from "@/component/SVG";
 import { getPostList } from "./api/post.api";
 import PostCard from "@/component/Home/PostCard";
+import { GetServerSideProps } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
+type Props = {
+  postList: Post[];
+};
 
-export default function Home() {
+export default function Home({ postList }: Props) {
   const router = useRouter();
-  const { data, isLoading } = useQuery(["post", "list"], getPostList);
 
   const onNavigateToDetail = (id: string) => {
     router.push(`/post/${id}`);
   };
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-
-  if (!data) {
-    return <div>empty</div>;
-  }
 
   return (
     <Container>
@@ -34,7 +27,7 @@ export default function Home() {
       </SearchSection>
       <MainSection>
         <PostList>
-          {data.map((post, index) => (
+          {postList.map((post, index) => (
             <PostCard
               key={`card-${index}`}
               post={post}
@@ -46,6 +39,14 @@ export default function Home() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const postList = await getPostList();
+
+  return {
+    props: { postList: postList ?? [] },
+  };
+};
 
 const Container = styled.div`
   ${({ theme }) => css`
