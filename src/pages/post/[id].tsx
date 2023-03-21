@@ -48,7 +48,7 @@ export default function Post() {
     return <div>???</div>;
   }
 
-  const { stackList, description, githubURL, writer } = data;
+  const { stackList, description, githubURL, writer, title } = data;
   const normalizedList = normalizeTreeData(treeList);
 
   const isMyPost = writer.id === user?.id;
@@ -77,6 +77,7 @@ export default function Post() {
         )}
       </Header>
       <Content>
+        <Title>{title}</Title>
         <Item>
           <Label>Stack</Label>
           <StackList>
@@ -182,6 +183,14 @@ const Label = styled.div`
     background-color: ${theme.palette.beige4};
     border-radius: 4px;
     padding: 4px;
+  `}
+`;
+
+const Title = styled.div`
+  ${({ theme }) => css`
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: ${theme.palette.gray2};
   `}
 `;
 

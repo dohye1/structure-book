@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function PostCard({ onClick, post }: Props) {
-  const { githubURL, description, stackList, writer } = post;
+  const { stackList, writer, title } = post;
   return (
     <Container onClick={() => onClick(post.id)}>
       <TopSection>
@@ -30,6 +30,7 @@ export default function PostCard({ onClick, post }: Props) {
           </Icon>
         </IconWrapper>
       </TopSection>
+      <Title>{title}</Title>
       <StackList>
         {stackList.map((stack) => (
           <Stack key={stack.value}>{stack.label}</Stack>
@@ -93,6 +94,21 @@ const Writer = styled.p`
   `}
 `;
 
+const Title = styled.p`
+  ${({ theme }) => css`
+    height: 60px;
+    font-size: 16px;
+    font-weight: 500;
+    color: ${theme.palette.gray2};
+    white-space: normal;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  `}
+`;
 const UserInfo = styled.div`
   ${({ theme }) => css`
     display: flex;

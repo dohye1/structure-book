@@ -12,6 +12,7 @@ import { createPost } from "./api/post.api";
 import userStore from "@/store/userStore";
 import StackSelect from "@/component/StackSelect";
 import { createStacks } from "./api/stack.api";
+import TextInput from "@/component/TextInput";
 
 export default function Create() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function Create() {
   const user = userStore((state) => state.user);
 
   // TODO: hook으로 넣기
+  const [title, setTitle] = useState("");
   const [stackList, setStackList] = useState<MultiValue<Stack>>([]);
   const [githubURL, setGithubURL] = useState("");
   const [description, setDescription] = useState<Value>("");
@@ -44,6 +46,7 @@ export default function Create() {
         const treeList = treeListRef.current.getTreeList();
         if (user) {
           mutate({
+            title,
             writer: user,
             stackList: stackList as Stack[],
             description: descriptionStr,
@@ -63,6 +66,14 @@ export default function Create() {
       <Form>
         <Title>Share your project structure</Title>
         <Item>
+          <Label required>Title</Label>
+          <TextInput
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="ex) Nextjs + Typescript boilerplate"
+          />
+        </Item>
+        <Item>
           <Label required>Stack</Label>
           <StackSelect value={stackList} onChange={setStackList} />
         </Item>
@@ -76,7 +87,7 @@ export default function Create() {
         </Item>
         <Item>
           <Label>Github URL</Label>
-          <Input
+          <TextInput
             value={githubURL}
             onChange={(e) => onChangeGithubURL(e.target.value)}
             placeholder="ex) https://github.com/owner/repository"
@@ -145,12 +156,6 @@ const Label = styled.div<{ required?: boolean }>`
         margin-bottom: 6px;
       }
     `}
-  `}
-`;
-
-const Input = styled.input`
-  ${({ theme }) => css`
-    padding: 8px 16px;
   `}
 `;
 
