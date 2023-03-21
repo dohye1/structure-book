@@ -5,6 +5,7 @@ declare global {
 
   type Post = {
     id: string;
+    title: string;
     writer: User;
     stackList: Stack[];
     treeList: TreeList;
