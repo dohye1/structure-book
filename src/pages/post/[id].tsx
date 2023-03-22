@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { deletePost, getPostDetail } from "../api/post.api";
 import TextEditor from "@/component/TextEditor";
-import TreeItem from "@/component/Create/TreeItem";
+import TreeItem from "@/component/Form/TreeItem";
 import { normalizeTreeData, updateTreeItemInfo } from "@/utils/tree.util";
 import { useState } from "react";
 import userStore from "@/store/userStore";
@@ -40,7 +40,11 @@ export default function Post({ postDetail }: Props) {
     }
   };
 
-  const { stackList, description, githubURL, writer, title } = postDetail;
+  const onEdit = (id: string) => {
+    router.replace(`/edit/${id}`);
+  };
+
+  const { stackList, description, githubURL, writer, title, id } = postDetail;
   const normalizedList = normalizeTreeData(treeList);
 
   const isMyPost = writer.id === user?.id;
@@ -54,14 +58,19 @@ export default function Post({ postDetail }: Props) {
         </UserInfo>
         {isMyPost && (
           <ButtonWrapper>
-            <Button variant="secondary" size="small" isFilled={false}>
+            <Button
+              variant="secondary"
+              size="small"
+              isFilled={false}
+              onClick={() => onEdit(id)}
+            >
               Edit
             </Button>
             <Button
               variant="secondary"
               size="small"
               isFilled={false}
-              onClick={() => deleteMutate(postDetail.id)}
+              onClick={() => deleteMutate(id)}
             >
               Remove
             </Button>

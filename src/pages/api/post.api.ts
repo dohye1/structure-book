@@ -1,6 +1,7 @@
 import {
   collection,
   addDoc,
+  updateDoc,
   getDocs,
   getDoc,
   doc,
@@ -61,6 +62,17 @@ export const createPost = async (newPost: CreatePost) => {
     return docRef.id;
   } catch (e) {
     console.error("fail to create post : ", e);
+  }
+};
+
+export const editPost = async (editedPost: Post) => {
+  try {
+    const treeListStr = JSON.stringify(editedPost.treeList);
+    const changeFormFormat = { ...editedPost, treeList: treeListStr };
+
+    await updateDoc(doc(db, "post", editedPost.id), changeFormFormat);
+  } catch (e) {
+    console.error("fail to update post : ", e);
   }
 };
 

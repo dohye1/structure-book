@@ -3,13 +3,14 @@ import styled from "@emotion/styled";
 import React, { forwardRef, useImperativeHandle } from "react";
 import Button from "../Button";
 import ControlButton from "../ControlButton";
-import GithubModal from "@/component/Create/GithubModal";
+import GithubModal from "@/component/Form/GithubModal";
 import SVG from "../SVG";
 import TreeItem from "./TreeItem";
 import TreeTempItem from "./TreeTempItem";
 import useTree from "@/hooks/useTree";
 
 type Props = {
+  defaultValue?: TreeList;
   onChangeGithubURL: (githubURL: string) => void;
 };
 

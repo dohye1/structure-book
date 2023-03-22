@@ -10,15 +10,19 @@ import {
 import useOutsideClick from "./useOutsideClick";
 
 type Props = {
+  defaultValue?: TreeList;
   onChangeGithubURL: (githubURL: string) => void;
 };
 
-export default function useTree({ onChangeGithubURL }: Props) {
+export default function useTree({ onChangeGithubURL, defaultValue }: Props) {
   const [showGithubModal, setShowGithubModal] = useState(false);
   const [isLoadingGithubTree, setIsLoadingGithubTree] = useState(false);
   const [selectedRow, setSelectedRow] = useState<TreeItem>();
 
   const [treeList, setTreeList] = useState<TreeList>(() => {
+    if (defaultValue) {
+      return defaultValue;
+    }
     const id = uuid();
     return {
       [id]: {

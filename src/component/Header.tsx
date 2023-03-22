@@ -71,11 +71,19 @@ const Logo = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
     font-weight: 700;
     column-gap: 8px;
     color: ${theme.palette.beige6};
     cursor: pointer;
+    ${theme.media.desktop`
+      font-size: 1.3rem;
+    `}
+    ${theme.media.tablet`
+      font-size: 1.1rem;
+    `}
+    ${theme.media.mobile`
+      font-size: 1rem;
+    `}
   `}
 `;
 
