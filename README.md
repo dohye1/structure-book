@@ -435,3 +435,18 @@ Stack데이터는 어제 고민했던대로 form 생성요청을 보내게되면
 
 </div>
 </details>
+
+
+<details>
+<summary>2023.03.23</summary>
+<div markdown="1">
+
+와우..검색기능 구현하는게 생각보다 어렵고만...
+firebase > firestore에서 지원하는 api만 사용하면 제한적인 검색기능만 구현할 수 있는디, Algoria, Elastic search같은걸 사용해야 검색기능을 다양하게 제공해준다고 한다.
+
+그래서 stack같은건 그냥 셀렉터로 선택해서 검색하도록 할까..고민
+
+
+</div>
+</details>
+
