@@ -11,6 +11,8 @@ import userStore from "@/store/userStore";
 import Avatar from "@/component/Avatar";
 import Button from "@/component/Button";
 import { GetServerSideProps, Redirect } from "next";
+import SVG from "@/component/SVG";
+import Tooltip from "@/component/Tooltip";
 
 type Props = {
   postDetail: Post;
@@ -94,7 +96,14 @@ export default function Post({ postDetail }: Props) {
           </Item>
         )}
         <Item>
-          <Label>Tree</Label>
+          <Label>
+            Tree
+            <Tooltip tooltipContent="copy">
+              <DuplicateButton>
+                <SVG name="duplicate" />
+              </DuplicateButton>
+            </Tooltip>
+          </Label>
           <TreeList>
             {normalizedList.length
               ? normalizedList.map((item) => {
@@ -202,7 +211,24 @@ const Label = styled.div`
     width: 100%;
     background-color: ${theme.palette.beige4};
     border-radius: 4px;
-    padding: 4px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  `}
+`;
+
+const DuplicateButton = styled.div`
+  ${({ theme }) => css`
+    cursor: pointer;
+    svg path {
+      fill: ${theme.palette.beige5};
+    }
+    &:hover {
+      svg path {
+        fill: ${theme.palette.beige7};
+      }
+    }
   `}
 `;
 

@@ -31,6 +31,7 @@ const Container = styled.button<{
 }>`
   ${({ theme, size = "regular", isFilled = true, variant }) => css`
     border: none;
+    word-break: keep-all;
     border-radius: 6px;
     display: flex;
     align-items: center;
