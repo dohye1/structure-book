@@ -114,3 +114,19 @@ export const updateTreeItemInfo = (
 
   return originalTreeList;
 };
+
+export const getTreeStructureByCode = (
+  treeList: TreeList,
+  depth = 0
+): string => {
+  const strList = Object.values(treeList).reduce((acc, cur, index, list) => {
+    return (
+      acc +
+      `│   `.repeat(depth) +
+      `${index === list.length - 1 ? "└── " : "├── "}${cur.item.name}\n` +
+      (cur?.children ? getTreeStructureByCode(cur.children!, depth + 1) : "")
+    );
+  }, "");
+
+  return strList;
+};

@@ -5,7 +5,11 @@ import { useMutation } from "react-query";
 import { deletePost, getPostDetail } from "../api/post.api";
 import TextEditor from "@/component/TextEditor";
 import TreeItem from "@/component/Form/TreeItem";
-import { normalizeTreeData, updateTreeItemInfo } from "@/utils/tree.util";
+import {
+  getTreeStructureByCode,
+  normalizeTreeData,
+  updateTreeItemInfo,
+} from "@/utils/tree.util";
 import { useState } from "react";
 import userStore from "@/store/userStore";
 import Avatar from "@/component/Avatar";
@@ -44,6 +48,20 @@ export default function Post({ postDetail }: Props) {
 
   const onEdit = (id: string) => {
     router.replace(`/edit/${id}`);
+  };
+
+  const onCopyStructure = (targetValue: TreeList) => {
+    const structureStr = getTreeStructureByCode(targetValue);
+    navigator.clipboard.writeText(structureStr).then(
+      () => {
+        /* clipboard successfully set */
+        alert("복사 성공");
+      },
+      () => {
+        /* clipboard write failed */
+        alert("복사 실패");
+      }
+    );
   };
 
   const { stackList, description, githubURL, writer, title, id } = postDetail;
@@ -99,7 +117,7 @@ export default function Post({ postDetail }: Props) {
           <Label>
             Tree
             <Tooltip tooltipContent="copy">
-              <DuplicateButton>
+              <DuplicateButton onClick={() => onCopyStructure(treeList)}>
                 <SVG name="duplicate" />
               </DuplicateButton>
             </Tooltip>
